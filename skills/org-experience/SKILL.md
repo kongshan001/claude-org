@@ -125,16 +125,30 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 - 收集各角色的新经验(踩坑/验证结果/可复用技能)→ 按沉淀协议**提案 → 确认 → 写入**
 - 角色文件内的"经验引用"同步更新(也需确认)
 
-## 发布协议(晋升/多工具对接)
+## 发布协议(模型执行,无脚本)
 
-**org/agents/ 是唯一开发源;发布 = 渲染快照到目标工具的 agents 目录(对接外部规范)。**
+**org/agents/ 是唯一开发源;发布 = 主会话按目标工具规范渲染并写盘(无脚本,模型执行)。**
 
-1. **触发**:角色稳定(连续 2 轮压测满分)或用户说"发布 <角色>" → 提案(目标工具)→ 用户批准
-2. **执行**:`python3 scripts/publish.py <slug>`(自动检测本机已装工具的 agents 目录;`--target claude|codex|cursor` 指定,`--dir` 自定义)
-3. **渲染规则**:name → 目标规范;description = 职责+专长生成的 Use-when 风格;**正文强制含"开工必读经验池"指令**(经验引用跨工具保持);tools/model 不指定(目标规范允许省略)
+1. **触发**:角色稳定(连续 2 轮压测满分)或用户说"发布 <角色>" → 提案(目标工具)→ 用户批准(写目标目录是写操作,先确认)
+2. **渲染模板**(通用,按目标 frontmatter 调整):
+```markdown
+---
+name: <slug>
+description: Use this agent when a task involves <职责> — expertise: <专长前5项>
+---
+你是 <slug>。
+- 职责: ...
+- 专长: ...
+- 开工必读经验池: `~/.claude/org/topics/<话题>/experience.md`(持续更新,以最新为准)
+执行任务时遵循 org 确认铁律:产出提案交回主会话,不自行落盘经验池。
+```
+3. **目标目录与规范**(各工具不同,无统一 .agent/agents/ 规范):
+   - **Claude Code**: `~/.claude/agents/<slug>.md`(用户级)/ `.claude/agents/`(项目级)——frontmatter: name/description 必需,tools/model 可选;递归发现,身份只认 name 字段;文件名与 name 一致
+   - **Codex**: `~/.codex/agents/<slug>.md`(用户级)/ `.codex/agents/`(项目级)
+   - **Cursor**: `.cursor/agents/<slug>.md`
+   - 注意:Claude Code **不读** `.agents/skills/` 或 `.agent/` 目录(那是 skills 公约,且 Claude Code skills 只认 `.claude/skills/`)
 4. **发布记录**:写回角色文件"发布记录"行(目标 + 日期)
-5. **迭代闭环**:发布后仍以 org/agents/ 为开发源——迭代 → 压测 → 通过 → 重新 publish(覆盖目标快照)
-6. **支持目标**:claude(`~/.claude/agents/`)、codex(`~/.codex/agents/`)、cursor(`.cursor/agents/`),可扩展
+5. **迭代闭环**:发布后仍以 org/agents/ 为开发源——迭代 → 压测 → 通过 → 重新发布(覆盖目标快照)
 
 ## 角色颗粒度规则(拆分/合并/上限)
 
