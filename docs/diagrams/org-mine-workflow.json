@@ -1,0 +1,167 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "会话挖掘流 · 历史经验进池",
+  "locale": "zh-CN",
+  "quality_profile": "showcase",
+  "output": "docs/diagrams/org-mine-workflow.html"
+ },
+ "lanes": [
+  {
+   "id": "eng",
+   "label": "工程管道"
+  },
+  {
+   "id": "agent",
+   "label": "执行角色"
+  },
+  {
+   "id": "lead",
+   "label": "主会话(编排)"
+  },
+  {
+   "id": "user",
+   "label": "用户"
+  },
+  {
+   "id": "pool",
+   "label": "org 经验池"
+  },
+  {
+   "id": "bench",
+   "label": "压测体系"
+  }
+ ],
+ "phases": [
+  {
+   "id": "ph-mine",
+   "label": "挖掘",
+   "fromCol": 0,
+   "toCol": 2
+  },
+  {
+   "id": "ph-gate",
+   "label": "人工闸门",
+   "fromCol": 3,
+   "toCol": 4,
+   "variant": "emphasis"
+  },
+  {
+   "id": "ph-seed",
+   "label": "进池与验证",
+   "fromCol": 5,
+   "toCol": 5
+  }
+ ],
+ "mainPath": [
+  "history",
+  "extract",
+  "mine",
+  "propose",
+  "confirm",
+  "topics"
+ ],
+ "nodes": [
+  {
+   "id": "history",
+   "lane": "eng",
+   "col": 0,
+   "type": "external",
+   "label": "历史会话",
+   "sublabel": "~/.claude/projects jsonl",
+   "width": 140
+  },
+  {
+   "id": "extract",
+   "lane": "eng",
+   "col": 1,
+   "type": "backend",
+   "label": "session_extract.py",
+   "sublabel": "提取 user/assistant 文本",
+   "tag": "工具调用折叠",
+   "width": 140
+  },
+  {
+   "id": "mine",
+   "lane": "agent",
+   "col": 2,
+   "type": "backend",
+   "label": "挖掘 agent",
+   "sublabel": "org-general-executor 分析",
+   "tag": "只挖高置信度",
+   "width": 140
+  },
+  {
+   "id": "propose",
+   "lane": "lead",
+   "col": 3,
+   "type": "backend",
+   "label": "候选条目提案",
+   "sublabel": "话题归类 + 证据 + 置信度",
+   "width": 140
+  },
+  {
+   "id": "confirm",
+   "lane": "user",
+   "col": 4,
+   "type": "frontend",
+   "label": "用户确认",
+   "sublabel": "铁律:识别自主 写入人工",
+   "width": 140
+  },
+  {
+   "id": "topics",
+   "lane": "pool",
+   "col": 5,
+   "type": "backend",
+   "label": "新话题 + 新角色",
+   "sublabel": "颗粒度规则:经验 ≥3 条",
+   "tag": "org- 前缀命名",
+   "width": 140
+  },
+  {
+   "id": "cases",
+   "lane": "bench",
+   "col": 5,
+   "type": "backend",
+   "label": "首轮用例 + 压测",
+   "sublabel": "压测铁律:迭代完成=压测通过",
+   "width": 140
+  }
+ ],
+ "edges": [
+  {
+   "id": "m1",
+   "from": "history",
+   "to": "extract"
+  },
+  {
+   "id": "m2",
+   "from": "extract",
+   "to": "mine"
+  },
+  {
+   "id": "m3",
+   "from": "mine",
+   "to": "propose"
+  },
+  {
+   "id": "m4",
+   "from": "propose",
+   "to": "confirm"
+  },
+  {
+   "id": "m5",
+   "from": "confirm",
+   "to": "topics",
+   "label": "批准落盘"
+  },
+  {
+   "id": "m6",
+   "from": "topics",
+   "to": "cases",
+   "label": "注册即压测"
+  }
+ ]
+}

@@ -1,0 +1,142 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "部署流 · 零侵入,模型 + skills",
+  "locale": "zh-CN",
+  "quality_profile": "showcase",
+  "output": "docs/diagrams/org-deploy-workflow.html"
+ },
+ "lanes": [
+  {
+   "id": "eng",
+   "label": "工程(仓库)"
+  },
+  {
+   "id": "user",
+   "label": "用户"
+  },
+  {
+   "id": "lead",
+   "label": "主会话(模型)"
+  },
+  {
+   "id": "env",
+   "label": "~/.claude 环境"
+  }
+ ],
+ "phases": [
+  {
+   "id": "ph-get",
+   "label": "获取",
+   "fromCol": 0,
+   "toCol": 1
+  },
+  {
+   "id": "ph-exec",
+   "label": "模型执行部署",
+   "fromCol": 2,
+   "toCol": 3,
+   "variant": "emphasis"
+  },
+  {
+   "id": "ph-ok",
+   "label": "验证与激活",
+   "fromCol": 4,
+   "toCol": 5
+  }
+ ],
+ "mainPath": [
+  "clone",
+  "prompt",
+  "model",
+  "install",
+  "doctor",
+  "active"
+ ],
+ "nodes": [
+  {
+   "id": "clone",
+   "lane": "eng",
+   "col": 0,
+   "type": "external",
+   "label": "git clone 仓库",
+   "sublabel": "任意设备(macOS/Linux/Win)",
+   "width": 130
+  },
+  {
+   "id": "prompt",
+   "lane": "user",
+   "col": 1,
+   "type": "frontend",
+   "label": "开会话说",
+   "sublabel": "\"部署 org\"",
+   "width": 130
+  },
+  {
+   "id": "model",
+   "lane": "lead",
+   "col": 2,
+   "type": "backend",
+   "label": "模型读 skill 执行",
+   "sublabel": "org-experience 部署协议",
+   "width": 130
+  },
+  {
+   "id": "install",
+   "lane": "env",
+   "col": 3,
+   "type": "backend",
+   "label": "install.sh",
+   "sublabel": "symlink ×2,零侵入",
+   "tag": "不碰 settings/CLAUDE.md",
+   "width": 130
+  },
+  {
+   "id": "doctor",
+   "lane": "env",
+   "col": 4,
+   "type": "backend",
+   "label": "doctor 验证",
+   "sublabel": "symlink + cron 全绿",
+   "width": 130
+  },
+  {
+   "id": "active",
+   "lane": "env",
+   "col": 5,
+   "type": "backend",
+   "label": "触发词激活",
+   "sublabel": "沉淀/分工/压测/日报",
+   "tag": "经验随 git 跨设备同步",
+   "width": 130
+  }
+ ],
+ "edges": [
+  {
+   "id": "d1",
+   "from": "clone",
+   "to": "prompt"
+  },
+  {
+   "id": "d2",
+   "from": "prompt",
+   "to": "model"
+  },
+  {
+   "id": "d3",
+   "from": "model",
+   "to": "install"
+  },
+  {
+   "id": "d4",
+   "from": "install",
+   "to": "doctor"
+  },
+  {
+   "id": "d5",
+   "from": "doctor",
+   "to": "active"
+  }
+ ]
+}

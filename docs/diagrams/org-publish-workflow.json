@@ -1,0 +1,143 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "发布流 · org 角色 → 目标工具 agents",
+  "locale": "zh-CN",
+  "quality_profile": "showcase",
+  "output": "docs/diagrams/org-publish-workflow.html"
+ },
+ "lanes": [
+  {
+   "id": "pool",
+   "label": "org 角色注册表"
+  },
+  {
+   "id": "lead",
+   "label": "主会话(模型执行)"
+  },
+  {
+   "id": "user",
+   "label": "用户"
+  },
+  {
+   "id": "target",
+   "label": "目标工具 agents 目录"
+  }
+ ],
+ "phases": [
+  {
+   "id": "ph-gate",
+   "label": "稳定与批准",
+   "fromCol": 0,
+   "toCol": 2
+  },
+  {
+   "id": "ph-render",
+   "label": "渲染写盘",
+   "fromCol": 3,
+   "toCol": 4,
+   "variant": "emphasis"
+  },
+  {
+   "id": "ph-loop",
+   "label": "迭代闭环",
+   "fromCol": 5,
+   "toCol": 5
+  }
+ ],
+ "mainPath": [
+  "stable",
+  "proposal",
+  "approve",
+  "render",
+  "write",
+  "record"
+ ],
+ "nodes": [
+  {
+   "id": "stable",
+   "lane": "pool",
+   "col": 0,
+   "type": "backend",
+   "label": "角色稳定",
+   "sublabel": "连续 2 轮压测满分",
+   "width": 130
+  },
+  {
+   "id": "proposal",
+   "lane": "lead",
+   "col": 1,
+   "type": "backend",
+   "label": "发布提案",
+   "sublabel": "目标工具 + 渲染内容",
+   "width": 130
+  },
+  {
+   "id": "approve",
+   "lane": "user",
+   "col": 2,
+   "type": "frontend",
+   "label": "用户批准",
+   "sublabel": "写目标目录 = 写操作",
+   "width": 130
+  },
+  {
+   "id": "render",
+   "lane": "lead",
+   "col": 3,
+   "type": "backend",
+   "label": "按目标规范渲染",
+   "sublabel": "name/description + 经验指令",
+   "tag": "无脚本,模型执行",
+   "width": 130
+  },
+  {
+   "id": "write",
+   "lane": "target",
+   "col": 4,
+   "type": "backend",
+   "label": "写盘 agents 目录",
+   "sublabel": "claude / codex / cursor",
+   "tag": "Claude Code 不读 .agents/",
+   "width": 130
+  },
+  {
+   "id": "record",
+   "lane": "pool",
+   "col": 5,
+   "type": "backend",
+   "label": "发布记录",
+   "sublabel": "写回角色文件;迭代→压测→重发",
+   "width": 130
+  }
+ ],
+ "edges": [
+  {
+   "id": "p1",
+   "from": "stable",
+   "to": "proposal"
+  },
+  {
+   "id": "p2",
+   "from": "proposal",
+   "to": "approve"
+  },
+  {
+   "id": "p3",
+   "from": "approve",
+   "to": "render"
+  },
+  {
+   "id": "p4",
+   "from": "render",
+   "to": "write"
+  },
+  {
+   "id": "p5",
+   "from": "write",
+   "to": "record",
+   "label": "发布完成"
+  }
+ ]
+}
