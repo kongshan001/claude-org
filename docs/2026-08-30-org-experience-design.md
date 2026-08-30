@@ -9,11 +9,11 @@
 
 ## 作用域与存储
 
-- **全局**:经验池与角色注册表位于 `~/Documents/claude-org/org/`,所有项目共享
+- **全局**:经验池与角色注册表位于 `${ORG_ROOT}/org/`,所有项目共享
 - **纯文件系统 + Markdown**:可读、可 git 备份、零依赖,与现有 skill/agent 文件模式一致
 
 ```
-~/Documents/claude-org/org/
+${ORG_ROOT}/org/
 ├── INDEX.md                  # 总索引:话题清单 + 角色清单(调度入口)
 ├── topics/
 │   └── <话题slug>/
@@ -52,7 +52,7 @@
 
 ## MVP 范围
 
-- `~/Documents/claude-org/org/` 骨架(INDEX + topics/ + agents/)
+- `${ORG_ROOT}/org/` 骨架(INDEX + topics/ + agents/)
 - `org` skill(SKILL.md)
 - 跑通 1 个完整闭环:沉淀提案 → 确认 → 落盘 → 角色提案 → 确认 → spawn → 结果回写提案
 

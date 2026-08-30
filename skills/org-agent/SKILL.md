@@ -1,22 +1,30 @@
 ---
 name: org-agent
-description: Use when 任务需要经验分工/调度 Agent、沉淀经验(踩坑/结论/验证/决策)、创建角色,或用户说触发词:沉淀/分工/派agent/建角色/组织agent/压测/日报/周报/部署org-agent/装org-agent/扫描会话/挖掘历史。管理 ~/Documents/claude-org/org 全局经验池:话题沉淀、角色注册表、动态调度、零侵入部署。
+description: Use when 任务需要经验分工/调度 Agent、沉淀经验(踩坑/结论/验证/决策)、创建角色,或用户说触发词:沉淀/分工/派agent/建角色/组织agent/压测/日报/周报/部署org-agent/装org-agent/扫描会话/挖掘历史。管理 ${ORG_ROOT}/org 全局经验池:话题沉淀、角色注册表、动态调度、零侵入部署。
 ---
 
 # org — 经验组织系统
 
 ## Overview
 
-全局经验池(`~/Documents/claude-org/org/`):按话题沉淀经验 → 任务按经验动态分配角色 → 无匹配自动提案新角色 → 角色经验持续回写。
+全局经验池(`${ORG_ROOT}/org/`):按话题沉淀经验 → 任务按经验动态分配角色 → 无匹配自动提案新角色 → 角色经验持续回写。
 
 **核心铁律:识别自主、写入人工。任何写操作(沉淀条目、创建/晋升/修改角色)必须先向用户提案并获得明确确认,禁止静默落盘。**
 
 **方案铁律:凡向用户提出方案/设计选择(含 A/B 选项),必须附可行性分析——收益、成本、风险、适用场景、是否推荐及理由。用"用户级"视角分析(对用户的价值/开销/风险),不是项目内部视角。禁止只列选项不分析。**
 
+## 路径解析(不硬编码,跨平台)
+
+**ORG_ROOT = 仓库根目录**。解析规则(模型执行时):
+
+- **类 Unix(推荐)**: `readlink ~/.claude/skills/org-agent` → 得到 `<仓库>/skills/org-agent` → 其上两级即 ORG_ROOT
+- **Windows(复制模式)**: skill 是 `~/.claude/skills/org-agent` 的独立副本,无 symlink 可解析 → ORG_ROOT = 用户 clone 仓库的位置(README 默认 `~/Documents/claude-org`,可自定义;模型找不到时询问用户)
+- **协议中所有路径**统一写作 `${ORG_ROOT}/org/...`、`${ORG_ROOT}/benchmarks/...`——执行时解析,禁止假设 Documents 固定路径
+
 ## 目录结构
 
 ```
-~/Documents/claude-org/org/
+${ORG_ROOT}/org/
 ├── INDEX.md            # 总索引(话题+角色清单,调度入口)
 ├── topics/<slug>/      # 话题:README.md(边界/关键词) experience.md(经验) skills.md(技能)
 └── agents/<slug>.md    # 角色:职责/专长/关联话题/经验引用
@@ -26,7 +34,7 @@ description: Use when 任务需要经验分工/调度 Agent、沉淀经验(踩�
 
 **用户说"部署 org-agent / 装 org-agent"时,主会话按此执行(无需改任何配置):**
 
-1. 检查 ~/Documents/claude-org/org 与 ~/.claude/skills/org-agent 的 symlink 是否指向仓库(Windows 为复制)
+1. 检查 ${ORG_ROOT}/org 与 ~/.claude/skills/org-agent 的 symlink 是否指向仓库(Windows 为复制)
 2. 未部署 → 运行仓库 `./install.sh`(只做 symlink,不碰 settings.json/CLAUDE.md)
 3. 定时任务(可选)→ 提示用户跑 `./cron-jobs.sh`(Claude Code 会话环境)
 4. 验证 → 运行 `./doctor.sh`,向用户汇报 ✅/❌
@@ -73,7 +81,7 @@ description: Use when 任务需要经验分工/调度 Agent、沉淀经验(踩�
 1. 主会话 spawn org-coordinator,注入:任务原文 + INDEX.md 全文 + 本 skill 协议要点
 2. coordinator 产出:任务规格书 + 角色匹配建议 + 派发计划 → 交回主会话
 3. 主会话确认派发计划(或直接放行)→ coordinator 派发执行 agent 并质检汇总
-4. **硬约束:coordinator 无写盘权**——它只提案(沉淀条目/新角色/降级路径),落盘必须经主会话 + 用户确认;spawn 时明确禁止其 Write 到 `~/Documents/claude-org/org/` 及 claude-org 仓库
+4. **硬约束:coordinator 无写盘权**——它只提案(沉淀条目/新角色/降级路径),落盘必须经主会话 + 用户确认;spawn 时明确禁止其 Write 到 `${ORG_ROOT}/org/` 及 claude-org 仓库
 5. 失败时 coordinator 提案降级路径,经主会话转达用户
 
 ## 待办协议(org-todo-organizer)
@@ -149,7 +157,7 @@ description: Use this agent when a task involves <职责> — expertise: <专长
 你是 <slug>。
 - 职责: ...
 - 专长: ...
-- 开工必读经验池: `~/Documents/claude-org/org/topics/<话题>/experience.md`(持续更新,以最新为准)
+- 开工必读经验池: `${ORG_ROOT}/org/topics/<话题>/experience.md`(持续更新,以最新为准)
 执行任务时遵循 org 确认铁律:产出提案交回主会话,不自行落盘经验池。
 ```
 3. **目标目录与规范**(各工具不同,无统一 .agent/agents/ 规范):

@@ -30,7 +30,7 @@ cd ~/Documents/claude-org
 ./doctor.sh         # 健康检查
 ```
 
-**约定路径(勿改)**:仓库固定 clone 到 `~/Documents/claude-org`(cron prompt 引用该路径)。
+**仓库位置约定**:默认 clone 到 `~/Documents/claude-org`;**Windows 可自定义**(如 OneDrive 重定向 Documents),skill 按顶部路径解析规则动态定位。
 
 ### 部署原则:零侵入
 
@@ -69,7 +69,7 @@ claude-org/
 ├── README.md
 ├── docs/                    # 设计文档
 ├── skills/org-agent/SKILL.md      # org 协议 skill
-└── org/                     # ← symlink 为 ~/Documents/claude-org/org
+└── org/                     # 数据层(独立目录,不依赖 .claude)
     ├── INDEX.md             # 话题 + 角色总索引(调度入口)
     ├── topics/<话题>/       # experience.md / skills.md / README.md
     └── agents/<角色>.md     # 实验角色定义(稳定后晋升)
