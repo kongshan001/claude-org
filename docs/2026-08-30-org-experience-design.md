@@ -42,7 +42,7 @@
 
 ## 封装
 
-机制封装为全局 skill `~/.claude/skills/org-experience/SKILL.md`,定义:何时触发、目录结构、写入规范、调度协议、确认闸门。所有项目可见。
+机制封装为全局 skill `~/.claude/skills/org-agent/SKILL.md`,定义:何时触发、目录结构、写入规范、调度协议、确认闸门。所有项目可见。
 
 ## 验证(最小闭环)
 

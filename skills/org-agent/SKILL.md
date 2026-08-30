@@ -1,6 +1,6 @@
 ---
-name: org-experience
-description: Use when 任务需要经验分工/调度 Agent、沉淀经验(踩坑/结论/验证/决策)、创建角色,或用户说触发词:沉淀/分工/派agent/建角色/组织agent/压测/日报/周报/部署org/装org/扫描会话/挖掘历史。管理 ~/Documents/claude-org/org 全局经验池:话题沉淀、角色注册表、动态调度、零侵入部署。
+name: org-agent
+description: Use when 任务需要经验分工/调度 Agent、沉淀经验(踩坑/结论/验证/决策)、创建角色,或用户说触发词:沉淀/分工/派agent/建角色/组织agent/压测/日报/周报/部署org-agent/装org-agent/扫描会话/挖掘历史。管理 ~/Documents/claude-org/org 全局经验池:话题沉淀、角色注册表、动态调度、零侵入部署。
 ---
 
 # org — 经验组织系统
@@ -24,9 +24,9 @@ description: Use when 任务需要经验分工/调度 Agent、沉淀经验(踩�
 
 ## 部署协议(零侵入,模型 + skills 即完成)
 
-**用户说"部署 org / 装 org"时,主会话按此执行(无需改任何配置):**
+**用户说"部署 org-agent / 装 org-agent"时,主会话按此执行(无需改任何配置):**
 
-1. 检查 ~/Documents/claude-org/org 与 ~/.claude/skills/org-experience 的 symlink 是否指向仓库(Windows 为复制)
+1. 检查 ~/Documents/claude-org/org 与 ~/.claude/skills/org-agent 的 symlink 是否指向仓库(Windows 为复制)
 2. 未部署 → 运行仓库 `./install.sh`(只做 symlink,不碰 settings.json/CLAUDE.md)
 3. 定时任务(可选)→ 提示用户跑 `./cron-jobs.sh`(Claude Code 会话环境)
 4. 验证 → 运行 `./doctor.sh`,向用户汇报 ✅/❌

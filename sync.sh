@@ -12,9 +12,9 @@ say() { printf '\033[1;34m[claude-org-sync]\033[0m %s\n' "$*"; }
 
 # 数据层(经验池/角色/用例)直接使用仓库目录,零 .claude 依赖 —— 无需同步
 mkdir -p "$CLAUDE_DIR/skills"
-rm -rf "$CLAUDE_DIR/skills/org-experience"
-cp -R "$REPO_DIR/skills/org-experience" "$CLAUDE_DIR/skills/org-experience"
-say "已同步 skills/org-experience"
+rm -rf "$CLAUDE_DIR/skills/org-agent"
+cp -R "$REPO_DIR/skills/org-agent" "$CLAUDE_DIR/skills/org-agent"
+say "已同步 skills/org-agent"
 
 mkdir -p "$CLAUDE_DIR/hooks"
 cp "$REPO_DIR/hooks/org-session-start.sh" "$CLAUDE_DIR/hooks/org-session-start.sh"

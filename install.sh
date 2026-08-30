@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # org 部署(最小侵入版):只做 symlink,不碰 settings.json / CLAUDE.md
-# 能力全部走 skills 命名空间:模型读 org-experience skill 即获得全部协议
+# 能力全部走 skills 命名空间:模型读 org-agent skill 即获得全部协议
 # 幂等,可重复执行;Windows(Git Bash)= 复制模式 + ./sync.sh
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
-SKILL_DIR="$CLAUDE_DIR/skills/org-experience"
+SKILL_DIR="$CLAUDE_DIR/skills/org-agent"
 
 say() { printf '\033[1;34m[claude-org]\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33m[claude-org]\033[0m %s\n' "$*"; }
@@ -38,9 +38,9 @@ deploy_dir() { # deploy_dir <目标> <源> <名称>
 
 # 数据层(经验池/角色/用例)直接使用仓库目录,不依赖 .claude —— 无需部署
 mkdir -p "$CLAUDE_DIR/skills"
-deploy_dir "$SKILL_DIR" "$REPO_DIR/skills/org-experience" "skills/org-experience"
+deploy_dir "$SKILL_DIR" "$REPO_DIR/skills/org-agent" "skills/org-agent"
 say "经验池 = 仓库 ~/Documents/claude-org/org/(独立目录,零 .claude 依赖)"
 
 say "完成。未改动 settings.json / CLAUDE.md(最小侵入)。"
-say "新开会话后:模型已可通过 org-experience skill 感知系统(触发词:沉淀/分工/派agent/压测/日报/部署)。"
+say "新开会话后:模型已可通过 org-agent skill 感知系统(触发词:沉淀/分工/派agent/压测/日报/部署)。"
 say "定时任务(日报/周报,可选):在 Claude Code 会话环境运行 ./cron-jobs.sh"

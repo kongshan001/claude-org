@@ -79,7 +79,7 @@
    "col": 2,
    "type": "backend",
    "label": "模型读 skill 执行",
-   "sublabel": "org-experience 部署协议",
+   "sublabel": "org-agent 部署协议",
    "width": 130
   },
   {

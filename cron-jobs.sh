@@ -11,9 +11,9 @@ command -v cc-connect >/dev/null || { echo "缺少 cc-connect" >&2; exit 1; }
 DAILY_DESC="org 每日日报"
 WEEKLY_DESC="org 每周周报"
 
-DAILY_PROMPT='按 org-experience skill 的日报协议生成今日 org 系统日报:1) 读 ~/Documents/claude-org/org/INDEX.md、org/todo.md 和 ~/Documents/claude-org 仓库状态(git log、topics、agents、benchmarks、reports) 2) 按协议 spawn org-coordinator 生成日报(注入 INDEX 全文+skill 要点+git log) 3) 落盘 ~/Documents/claude-org/reports/daily/ 下,文件名用当天日期,先执行 date +%F 获取 4) 用 cc-connect send --file 发飞书 5) 仓库有变更则 git add/commit/push 同步。最后输出简短确认摘要。'
+DAILY_PROMPT='按 org-agent skill 的日报协议生成今日 org 系统日报:1) 读 ~/Documents/claude-org/org/INDEX.md、org/todo.md 和 ~/Documents/claude-org 仓库状态(git log、topics、agents、benchmarks、reports) 2) 按协议 spawn org-coordinator 生成日报(注入 INDEX 全文+skill 要点+git log) 3) 落盘 ~/Documents/claude-org/reports/daily/ 下,文件名用当天日期,先执行 date +%F 获取 4) 用 cc-connect send --file 发飞书 5) 仓库有变更则 git add/commit/push 同步。最后输出简短确认摘要。'
 
-WEEKLY_PROMPT='按 org-experience skill 的周报协议生成本周 org 系统周报:1) 读 ~/Documents/claude-org/org/INDEX.md、org/todo.md 和 ~/Documents/claude-org 仓库状态(git log 本周提交、topics、agents、benchmarks、reports/weekly/TEMPLATE.md) 2) 按协议 spawn org-coordinator 生成周报(注入 INDEX 全文+skill 要点+本周 git log,遵循 TEMPLATE.md 格式) 3) 落盘 ~/Documents/claude-org/reports/weekly/ 下,文件名用当前 ISO 周号,先执行 date +%G-W%V 获取 4) 用 cc-connect send --file 发飞书 5) 仓库有变更则 git add/commit/push 同步。最后输出简短确认摘要。'
+WEEKLY_PROMPT='按 org-agent skill 的周报协议生成本周 org 系统周报:1) 读 ~/Documents/claude-org/org/INDEX.md、org/todo.md 和 ~/Documents/claude-org 仓库状态(git log 本周提交、topics、agents、benchmarks、reports/weekly/TEMPLATE.md) 2) 按协议 spawn org-coordinator 生成周报(注入 INDEX 全文+skill 要点+本周 git log,遵循 TEMPLATE.md 格式) 3) 落盘 ~/Documents/claude-org/reports/weekly/ 下,文件名用当前 ISO 周号,先执行 date +%G-W%V 获取 4) 用 cc-connect send --file 发飞书 5) 仓库有变更则 git add/commit/push 同步。最后输出简短确认摘要。'
 
 # ── 幂等清理:删除同名任务 ──────────────────────────────
 cleanup() {

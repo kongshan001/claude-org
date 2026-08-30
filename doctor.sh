@@ -18,13 +18,13 @@ echo
 
 echo "[1] 数据层(独立目录,零 .claude 依赖)"
 check "经验池 $REPO_DIR/org/ 存在" test -d "$REPO_DIR/org"
-echo "[2] org-experience skill"
+echo "[2] org-agent skill"
 case "$(uname -s)" in
   MINGW*|MSYS*|CYGWIN*)
-    check "~/.claude/skills/org-experience 已部署(复制)" test -d "$CLAUDE_DIR/skills/org-experience"
+    check "~/.claude/skills/org-agent 已部署(复制)" test -d "$CLAUDE_DIR/skills/org-agent"
     ;;
   *)
-    check "~/.claude/skills/org-experience → 仓库" test -L "$CLAUDE_DIR/skills/org-experience" -a "$(readlink "$CLAUDE_DIR/skills/org-experience")" = "$REPO_DIR/skills/org-experience"
+    check "~/.claude/skills/org-agent → 仓库" test -L "$CLAUDE_DIR/skills/org-agent" -a "$(readlink "$CLAUDE_DIR/skills/org-agent")" = "$REPO_DIR/skills/org-agent"
     ;;
 esac
 

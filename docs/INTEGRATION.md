@@ -4,7 +4,7 @@ org 系统的对接分三层,每层的跨工具策略不同:
 
 | 层 | 内容 | 跨工具策略 |
 |---|---|---|
-| **协议层** | `org-experience` skill(触发词/铁律/协议) | **SKILL.md 是跨工具开放标准**(agentskills.io)——放到各工具的 skills 目录即被识别 |
+| **协议层** | `org-agent` skill(触发词/铁律/协议) | **SKILL.md 是跨工具开放标准**(agentskills.io)——放到各工具的 skills 目录即被识别 |
 | **角色层** | org/agents/ 注册表 → 各工具 agents 目录 | **发布协议**(模型按目标规范渲染写盘) |
 | **数据层** | 经验池/角色/用例/报告(纯 markdown) | **任何工具可读**——skill 定义里写"开工读 ~/Documents/claude-org/org/...",绝对路径跨工具有效 |
 
@@ -24,7 +24,7 @@ org 系统的对接分三层,每层的跨工具策略不同:
 
 ```bash
 git clone https://github.com/kongshan001/claude-org.git ~/Documents/claude-org
-cd ~/Documents/claude-org && ./install.sh   # symlink org/ + skills/org-experience/
+cd ~/Documents/claude-org && ./install.sh   # symlink org/ + skills/org-agent/
 # 角色发布:说"发布 org-game-art" → 模型按规范写盘 ~/.claude/agents/
 ```
 
@@ -32,8 +32,8 @@ cd ~/Documents/claude-org && ./install.sh   # symlink org/ + skills/org-experien
 
 ```bash
 # skill 层:复制(Codex 也认 .agents/skills/ 行业公约)
-mkdir -p ~/.codex/skills && cp -R skills/org-experience ~/.codex/skills/
-# 或 mkdir -p ~/.agents/skills && cp -R skills/org-experience ~/.agents/skills/
+mkdir -p ~/.codex/skills && cp -R skills/org-agent ~/.codex/skills/
+# 或 mkdir -p ~/.agents/skills && cp -R skills/org-agent ~/.agents/skills/
 # 角色层:说"发布 org-pathfinder --target codex" → 模型写盘 ~/.codex/agents/
 ```
 
@@ -43,7 +43,7 @@ Codex 的 SKILL.md frontmatter(name/description)与标准一致,支持实验字�
 
 ```bash
 # skill 层:Cursor 2.4+ 原生支持 skills,优先 .cursor/skills/,也读 .agents/skills/
-mkdir -p ~/.cursor/skills && cp -R skills/org-experience ~/.cursor/skills/
+mkdir -p ~/.cursor/skills && cp -R skills/org-agent ~/.cursor/skills/
 # 角色层:.cursor/agents/(模型按发布协议渲染)
 ```
 
@@ -52,9 +52,9 @@ mkdir -p ~/.cursor/skills && cp -R skills/org-experience ~/.cursor/skills/
 DSH 是 cordis/pnpm workspace 架构,插件 = npm 包,按 profile 安装:
 
 ```bash
-# 打包 org-experience 为 DSH 插件(参考 archify 的 @tt-a1i/archify-dsh 模式)
+# 打包 org-agent 为 DSH 插件(参考 archify 的 @tt-a1i/archify-dsh 模式)
 # 包结构:package.json + SKILL.md(+ org/ 数据目录)
-dsh plugin --profile web add <本地tarball或npm包名>   # 例如 @kongshan001/org-experience-dsh
+dsh plugin --profile web add <本地tarball或npm包名>   # 例如 @kongshan001/org-agent-dsh
 ```
 
 DSH 特有注意:
@@ -65,7 +65,7 @@ DSH 特有注意:
 ### 5. 新工具接入模板(通用)
 
 1. 查该工具的 skills 目录规范(优先 `.agents/skills/` 公约,否则工具自有目录)
-2. 复制 `skills/org-experience/` 到该目录(SKILL.md 标准跨工具)
+2. 复制 `skills/org-agent/` 到该目录(SKILL.md 标准跨工具)
 3. 查 agents 目录 → 在 skill 发布协议的"目标目录"表加一行
 4. 验证:该工具会话里说触发词,确认 skill 被识别
 5. 常驻可选:按该工具的常驻指令机制(AGENTS.md 等)追加模板
