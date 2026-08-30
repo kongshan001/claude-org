@@ -43,4 +43,4 @@
 - **调度**:任务 → 匹配角色 → spawn(注入关联话题经验)→ 完成后经验回写(需确认)
 - **建角色**:org-general-executor 同类工作 ≥2 次 → 角色提案 → 用户批准 → 创建 `agents/<slug>.md`
 - **晋升**:稳定角色 → 提案 → 批准 → 拷贝到 `~/.claude/agents/`(harness 原生)
-- 详细协议见 `~/.claude/skills/org/SKILL.md`
+- 详细协议见 `~/.claude/skills/org-experience/SKILL.md`

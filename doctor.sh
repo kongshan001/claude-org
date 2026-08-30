@@ -20,14 +20,14 @@ case "$(uname -s)" in
   MINGW*|MSYS*|CYGWIN*)
     echo "[1] 经验池(复制模式)"
     check "~/.claude/org 已部署" test -d "$CLAUDE_DIR/org"
-    echo "[2] org skill(复制模式)"
-    check "~/.claude/skills/org 已部署" test -d "$CLAUDE_DIR/skills/org"
+    echo "[2] org-experience skill(复制模式)"
+    check "~/.claude/skills/org-experience 已部署" test -d "$CLAUDE_DIR/skills/org-experience"
     ;;
   *)
     echo "[1] 经验池 symlink"
     check "~/.claude/org → 仓库 org/" test -L "$CLAUDE_DIR/org" -a "$(readlink "$CLAUDE_DIR/org")" = "$REPO_DIR/org"
-    echo "[2] org skill symlink"
-    check "~/.claude/skills/org → 仓库 skills/org/" test -L "$CLAUDE_DIR/skills/org" -a "$(readlink "$CLAUDE_DIR/skills/org")" = "$REPO_DIR/skills/org"
+    echo "[2] org-experience skill symlink"
+    check "~/.claude/skills/org-experience → 仓库 skills/org-experience/" test -L "$CLAUDE_DIR/skills/org-experience" -a "$(readlink "$CLAUDE_DIR/skills/org-experience")" = "$REPO_DIR/skills/org-experience"
     ;;
 esac
 

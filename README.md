@@ -18,14 +18,14 @@
 部署 org
 ```
 
-模型读到本仓库的 `org` skill 后,会按"部署协议"自动执行:检查 → `./install.sh`(只做 symlink)→ 可选 `./cron-jobs.sh` → `./doctor.sh` 验证 → 汇报。
+模型读到本仓库的 `org-experience` skill 后,会按"部署协议"自动执行:检查 → `./install.sh`(只做 symlink)→ 可选 `./cron-jobs.sh` → `./doctor.sh` 验证 → 汇报。
 
 **方式二(手动):**
 
 ```bash
 git clone https://github.com/kongshan001/claude-org.git ~/Documents/claude-org
 cd ~/Documents/claude-org
-./install.sh        # 只做 symlink(org/ + skills/org/),不碰 settings.json / CLAUDE.md
+./install.sh        # 只做 symlink(org/ + skills/org-experience/),不碰 settings.json / CLAUDE.md
 ./cron-jobs.sh      # 定时任务(可选,日报 08:57 + 周报 周五 09:07)
 ./doctor.sh         # 健康检查
 ```
@@ -35,7 +35,7 @@ cd ~/Documents/claude-org
 ### 部署原则:零侵入
 
 - **不写 settings.json、不改 CLAUDE.md** —— 用户本地配置零改动
-- 能力全部来自 `skills/org/`(模型通过 skill description 感知系统)+ 仓库文件(symlink 同步)
+- 能力全部来自 `skills/org-experience/`(模型通过 skill description 感知系统)+ 仓库文件(symlink 同步)
 - **激活方式**:新会话说触发词即可——`沉淀` / `分工` / `派agent` / `建角色` / `压测` / `日报` / `周报` / `部署 org` / `扫描会话`
 - 代价:新会话不自动注入 org 意识,依赖触发词激活(主动使用模式)
 
@@ -65,13 +65,11 @@ cd ~/Documents/claude-org
 ```
 claude-org/
 ├── install.sh               # 幂等安装脚本
-├── claude-md-block.md       # CLAUDE.md 追加块
 ├── README.md
 ├── docs/                    # 设计文档
-├── skills/org/SKILL.md      # org 协议 skill
+├── skills/org-experience/SKILL.md      # org 协议 skill
 └── org/                     # ← symlink 为 ~/.claude/org
     ├── INDEX.md             # 话题 + 角色总索引(调度入口)
-    ├── hook-context.md      # 会话启动注入的协议提示
     ├── topics/<话题>/       # experience.md / skills.md / README.md
     └── agents/<角色>.md     # 实验角色定义(稳定后晋升)
 ```

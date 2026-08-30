@@ -21,4 +21,4 @@
 - 评估:`org-bench-evaluator` 盲评(不看历史分/不看身份),按验收点 0/0.5/1 逐条打分 → 总分 0-100
 - 对比:单用例跌幅 > 15 分或均分跌幅 > 5 分 → 🔴 警告 + 根因分析提案(回滚/修正/接受)
 - 升高/持平 → 更新 baseline;连续 2 轮升高 → 标记"已验证提升"
-- 详细协议见 `~/.claude/skills/org/SKILL.md`(benchmark 章节)
+- 详细协议见 `~/.claude/skills/org-experience/SKILL.md`(benchmark 章节)

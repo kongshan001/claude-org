@@ -15,9 +15,9 @@ cp -R "$REPO_DIR/org" "$CLAUDE_DIR/org"
 say "已同步 org/(经验池+角色+todo)"
 
 mkdir -p "$CLAUDE_DIR/skills"
-rm -rf "$CLAUDE_DIR/skills/org"
-cp -R "$REPO_DIR/skills/org" "$CLAUDE_DIR/skills/org"
-say "已同步 skills/org"
+rm -rf "$CLAUDE_DIR/skills/org-experience"
+cp -R "$REPO_DIR/skills/org-experience" "$CLAUDE_DIR/skills/org-experience"
+say "已同步 skills/org-experience"
 
 mkdir -p "$CLAUDE_DIR/hooks"
 cp "$REPO_DIR/hooks/org-session-start.sh" "$CLAUDE_DIR/hooks/org-session-start.sh"

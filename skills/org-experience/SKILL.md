@@ -1,5 +1,5 @@
 ---
-name: org
+name: org-experience
 description: Use when 任务需要按经验分工/调度多个 Agent、对话中产生值得沉淀的经验(踩坑/结论/验证过的方案/决策)、需要创建或整理 Agent 角色、或用户说"沉淀/分工/派agent/建角色/组织 agent/压测/日报/周报/部署 org/装 org/扫描会话/挖掘历史"。管理 ~/.claude/org/ 全局经验池:话题沉淀、角色注册表、动态调度、角色晋升、零侵入部署。
 ---
 
@@ -26,7 +26,7 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 
 **用户说"部署 org / 装 org"时,主会话按此执行(无需改任何配置):**
 
-1. 检查 ~/.claude/org 与 ~/.claude/skills/org 的 symlink 是否指向仓库(Windows 为复制)
+1. 检查 ~/.claude/org 与 ~/.claude/skills/org-experience 的 symlink 是否指向仓库(Windows 为复制)
 2. 未部署 → 运行仓库 `./install.sh`(只做 symlink,不碰 settings.json/CLAUDE.md)
 3. 定时任务(可选)→ 提示用户跑 `./cron-jobs.sh`(Claude Code 会话环境)
 4. 验证 → 运行 `./doctor.sh`,向用户汇报 ✅/❌
