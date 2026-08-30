@@ -39,10 +39,10 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 2. **边界规则**:有产出物(文件/代码/报告/资产)= 必须派发;纯对话(解释/问答/决策讨论)= 主会话直接答
 3. 按专长匹配 `agents/` 角色(专长 + 关联话题关键词):
    - **命中** → Agent 工具 spawn 专门角色,角色定义 + 关联话题 experience.md 全文注入 prompt
-   - **未命中** → spawn **`general-executor`**(内置兜底):注入任务规格书 + INDEX 摘要 + 最相关话题经验
+   - **未命中** → spawn **`org-general-executor`**(内置兜底):注入任务规格书 + INDEX 摘要 + 最相关话题经验
 4. 多子任务并行,每子任务独立 spawn;主会话收集结果 → 质检(完整性/符合规格)→ 交付用户
-5. **失败降级**:agent spawn 失败或反复失败 → **提案给用户**(换 general-executor?重试?主会话直接做?)→ 用户批准后才执行。禁止自动主会话接手
-6. **新角色演进**:general-executor 完成同类工作 ≥2 次且效果稳定 → 主会话提案"为该类工作建专门角色" → 用户批准 → 创建 `agents/<slug>.md` 并更新注册表
+5. **失败降级**:agent spawn 失败或反复失败 → **提案给用户**(换 org-general-executor?重试?主会话直接做?)→ 用户批准后才执行。禁止自动主会话接手
+6. **新角色演进**:org-general-executor 完成同类工作 ≥2 次且效果稳定 → 主会话提案"为该类工作建专门角色" → 用户批准 → 创建 `agents/<slug>.md` 并更新注册表
 
 ## 委托协议(org-coordinator 模式,一切皆 agent)
 
@@ -54,7 +54,7 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 4. **硬约束:coordinator 无写盘权**——它只提案(沉淀条目/新角色/降级路径),落盘必须经主会话 + 用户确认;spawn 时明确禁止其 Write 到 `~/.claude/org/` 及 claude-org 仓库
 5. 失败时 coordinator 提案降级路径,经主会话转达用户
 
-## 待办协议(todo-organizer)
+## 待办协议(org-todo-organizer)
 
 - 对话中识别明确待办(未完成的事务/后续步骤/承诺)→ 提案(事项/优先级/来源)→ 用户确认 → 写入 `org/todo.md`
 - **重开会话**:先读 `org/todo.md`(open/doing 项),向用户汇报待办并接续推进
@@ -68,7 +68,7 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 1. **用例沉淀**:过往任务 → 提案"用例化"(任务描述/期望产出/验收点 3-5 条/历史得分)→ 确认 → `benchmarks/cases/<case-id>.md`
 2. **选用例**:被测 agent 的全部用例 + 关联话题用例;低成本试跑可抽样(每 agent 3-5 条)
 3. **运行**:每用例独立 spawn 被测 agent(注入用例 + 关联话题经验)→ 回答落盘 `benchmarks/runs/<run-id>/`
-4. **评估**:spawn `bench-evaluator` 盲评——**只看用例+回答,不看历史分/不看身份**;按验收点 0/0.5/1 打分 → 总分 0-100 + 扣分理由 + 失败归类
+4. **评估**:spawn `org-bench-evaluator` 盲评——**只看用例+回答,不看历史分/不看身份**;按验收点 0/0.5/1 打分 → 总分 0-100 + 扣分理由 + 失败归类
 5. **对比审核**(结果落盘 `benchmarks/results.md`):
    - 单用例跌幅 > 15 分 或 均分跌幅 > 5 分 → 🔴 警告 + 根因分析提案(回滚/修正/接受降级)
    - 持平/升高 → 更新 baseline;连续 2 轮升高 → 标记"已验证提升",更新角色验证记录

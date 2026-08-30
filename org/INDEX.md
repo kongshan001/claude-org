@@ -15,16 +15,21 @@
 | 角色 | 路径 | 专长 | 状态 |
 |---|---|---|---|
 | org-coordinator | `agents/org-coordinator.md` | 编排:拆解/匹配/派发/质检/提案(无写盘权) | 实验期 |
-| todo-organizer | `agents/todo-organizer.md` | 待办整理:识别/提案/维护 org/todo.md | 实验期 |
-| bench-evaluator | `agents/bench-evaluator.md` | 压测评估:盲评打分/验收点判定 | 实验期 |
-| general-executor | `agents/general-executor.md` | 通用兜底:按任务规格书执行,无专长 | 内置 |
-| game-art-agent | `agents/game-art-agent.md` | 2D 游戏美术资产:生图/动画/飞书交付 | 实验期 |
+| org-todo-organizer | `agents/org-todo-organizer.md` | 待办整理:识别/提案/维护 org/todo.md | 实验期 |
+| org-bench-evaluator | `agents/org-bench-evaluator.md` | 压测评估:盲评打分/验收点判定 | 实验期 |
+| org-general-executor | `agents/org-general-executor.md` | 通用兜底:按任务规格书执行,无专长 | 内置 |
+| org-game-art | `agents/org-game-art.md` | 2D 游戏美术资产:生图/动画/飞书交付 | 实验期 |
+
+## 命名规则
+
+- **`org-` 前缀 = 本系统沉淀的 Agent**:凡 org 经验沉淀的角色,命名一律 `org-<name>`;外部安装/下载的 agent 命名空间我们不碰
+- 旧名映射:game-art-agent→org-game-art;general-executor→org-general-executor;bench-evaluator→org-bench-evaluator;todo-organizer→org-todo-organizer(历史引用对照用)
 
 ## 使用协议
 
-- **主会话 = 纯编排者**:只做拆解/匹配/派发/质检/提案;有产出物的任务必须派发(general-executor 兜底),纯对话直接答;agent 失败降级须提案用户
+- **主会话 = 纯编排者**:只做拆解/匹配/派发/质检/提案;有产出物的任务必须派发(org-general-executor 兜底),纯对话直接答;agent 失败降级须提案用户
 - **沉淀**:对话中识别高置信度内容 → 提出建议条目 → 用户确认 → 写入 `topics/<slug>/experience.md`
 - **调度**:任务 → 匹配角色 → spawn(注入关联话题经验)→ 完成后经验回写(需确认)
-- **建角色**:general-executor 同类工作 ≥2 次 → 角色提案 → 用户批准 → 创建 `agents/<slug>.md`
+- **建角色**:org-general-executor 同类工作 ≥2 次 → 角色提案 → 用户批准 → 创建 `agents/<slug>.md`
 - **晋升**:稳定角色 → 提案 → 批准 → 拷贝到 `~/.claude/agents/`(harness 原生)
 - 详细协议见 `~/.claude/skills/org/SKILL.md`
