@@ -10,10 +10,7 @@ say() { printf '\033[1;34m[claude-org-sync]\033[0m %s\n' "$*"; }
 
 [ -d "$CLAUDE_DIR" ] || { echo "未找到 ~/.claude" >&2; exit 1; }
 
-rm -rf "$CLAUDE_DIR/org"
-cp -R "$REPO_DIR/org" "$CLAUDE_DIR/org"
-say "已同步 org/(经验池+角色+todo)"
-
+# 数据层(经验池/角色/用例)直接使用仓库目录,零 .claude 依赖 —— 无需同步
 mkdir -p "$CLAUDE_DIR/skills"
 rm -rf "$CLAUDE_DIR/skills/org-experience"
 cp -R "$REPO_DIR/skills/org-experience" "$CLAUDE_DIR/skills/org-experience"

@@ -69,7 +69,7 @@ claude-org/
 ├── README.md
 ├── docs/                    # 设计文档
 ├── skills/org-experience/SKILL.md      # org 协议 skill
-└── org/                     # ← symlink 为 ~/.claude/org
+└── org/                     # ← symlink 为 ~/Documents/claude-org/org
     ├── INDEX.md             # 话题 + 角色总索引(调度入口)
     ├── topics/<话题>/       # experience.md / skills.md / README.md
     └── agents/<角色>.md     # 实验角色定义(稳定后晋升)

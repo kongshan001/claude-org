@@ -6,7 +6,6 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
-ORG_DIR="$CLAUDE_DIR/org"
 SKILL_DIR="$CLAUDE_DIR/skills/org-experience"
 
 say() { printf '\033[1;34m[claude-org]\033[0m %s\n' "$*"; }
@@ -37,9 +36,10 @@ deploy_dir() { # deploy_dir <目标> <源> <名称>
   fi
 }
 
-deploy_dir "$ORG_DIR" "$REPO_DIR/org" "org/"
+# 数据层(经验池/角色/用例)直接使用仓库目录,不依赖 .claude —— 无需部署
 mkdir -p "$CLAUDE_DIR/skills"
 deploy_dir "$SKILL_DIR" "$REPO_DIR/skills/org-experience" "skills/org-experience"
+say "经验池 = 仓库 ~/Documents/claude-org/org/(独立目录,零 .claude 依赖)"
 
 say "完成。未改动 settings.json / CLAUDE.md(最小侵入)。"
 say "新开会话后:模型已可通过 org-experience skill 感知系统(触发词:沉淀/分工/派agent/压测/日报/部署)。"

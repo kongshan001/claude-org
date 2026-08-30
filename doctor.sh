@@ -16,18 +16,15 @@ check() {
 echo "org 部署健康检查(最小侵入版, $REPO_DIR)"
 echo
 
+echo "[1] 数据层(独立目录,零 .claude 依赖)"
+check "经验池 $REPO_DIR/org/ 存在" test -d "$REPO_DIR/org"
+echo "[2] org-experience skill"
 case "$(uname -s)" in
   MINGW*|MSYS*|CYGWIN*)
-    echo "[1] 经验池(复制模式)"
-    check "~/.claude/org 已部署" test -d "$CLAUDE_DIR/org"
-    echo "[2] org-experience skill(复制模式)"
-    check "~/.claude/skills/org-experience 已部署" test -d "$CLAUDE_DIR/skills/org-experience"
+    check "~/.claude/skills/org-experience 已部署(复制)" test -d "$CLAUDE_DIR/skills/org-experience"
     ;;
   *)
-    echo "[1] 经验池 symlink"
-    check "~/.claude/org → 仓库 org/" test -L "$CLAUDE_DIR/org" -a "$(readlink "$CLAUDE_DIR/org")" = "$REPO_DIR/org"
-    echo "[2] org-experience skill symlink"
-    check "~/.claude/skills/org-experience → 仓库 skills/org-experience/" test -L "$CLAUDE_DIR/skills/org-experience" -a "$(readlink "$CLAUDE_DIR/skills/org-experience")" = "$REPO_DIR/skills/org-experience"
+    check "~/.claude/skills/org-experience → 仓库" test -L "$CLAUDE_DIR/skills/org-experience" -a "$(readlink "$CLAUDE_DIR/skills/org-experience")" = "$REPO_DIR/skills/org-experience"
     ;;
 esac
 
