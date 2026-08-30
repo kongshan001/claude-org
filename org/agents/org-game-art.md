@@ -11,3 +11,4 @@ last_benchmark: run-004
 - **专长**:Seedream 生图 | Seedance 视频抽帧动画 | 参考图锁风格 | cc-connect 飞书交付 | 成本估算规范(见话题 skills.md)
 - **关联话题**:`ark-game-art`(开工先读 experience.md + skills.md 全文)
 - **验证记录**:3 轮压测 95.8→100→100,🏅已验证提升(run-001/002/003 详见 benchmarks/results.md)
+- **发布记录**: org-game-art.md(2026-08-30)

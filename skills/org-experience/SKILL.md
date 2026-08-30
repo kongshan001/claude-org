@@ -125,11 +125,16 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 - 收集各角色的新经验(踩坑/验证结果/可复用技能)→ 按沉淀协议**提案 → 确认 → 写入**
 - 角色文件内的"经验引用"同步更新(也需确认)
 
-## 晋升协议(角色稳定/高频后)
+## 发布协议(晋升/多工具对接)
 
-1. 提案:角色名、被验证次数、理由、建议的 harness 原生 agent 定义内容
-2. 用户批准 → 写 `~/.claude/agents/<slug>.md`(frontmatter: name/description + 正文)
-3. `agents/<slug>.md` 标注 `promoted: true` + 指针
+**org/agents/ 是唯一开发源;发布 = 渲染快照到目标工具的 agents 目录(对接外部规范)。**
+
+1. **触发**:角色稳定(连续 2 轮压测满分)或用户说"发布 <角色>" → 提案(目标工具)→ 用户批准
+2. **执行**:`python3 scripts/publish.py <slug>`(自动检测本机已装工具的 agents 目录;`--target claude|codex|cursor` 指定,`--dir` 自定义)
+3. **渲染规则**:name → 目标规范;description = 职责+专长生成的 Use-when 风格;**正文强制含"开工必读经验池"指令**(经验引用跨工具保持);tools/model 不指定(目标规范允许省略)
+4. **发布记录**:写回角色文件"发布记录"行(目标 + 日期)
+5. **迭代闭环**:发布后仍以 org/agents/ 为开发源——迭代 → 压测 → 通过 → 重新 publish(覆盖目标快照)
+6. **支持目标**:claude(`~/.claude/agents/`)、codex(`~/.codex/agents/`)、cursor(`.cursor/agents/`),可扩展
 
 ## 角色颗粒度规则(拆分/合并/上限)
 
