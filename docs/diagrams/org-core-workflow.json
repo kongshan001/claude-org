@@ -1,0 +1,217 @@
+{
+ "schema_version": 2,
+ "diagram_type": "workflow",
+ "meta": {
+  "title": "org 经验组织系统 · 核心闭环",
+  "locale": "zh-CN",
+  "quality_profile": "showcase",
+  "output": "docs/diagrams/org-core-workflow.html"
+ },
+ "lanes": [
+  {
+   "id": "user",
+   "label": "用户"
+  },
+  {
+   "id": "lead",
+   "label": "主会话(纯编排)"
+  },
+  {
+   "id": "pool",
+   "label": "org 经验池"
+  },
+  {
+   "id": "agent",
+   "label": "执行角色"
+  },
+  {
+   "id": "bench",
+   "label": "压测体系"
+  }
+ ],
+ "phases": [
+  {
+   "id": "ph-plan",
+   "label": "编排",
+   "fromCol": 0,
+   "toCol": 2
+  },
+  {
+   "id": "ph-exec",
+   "label": "执行与验证",
+   "fromCol": 3,
+   "toCol": 3,
+   "variant": "emphasis"
+  },
+  {
+   "id": "ph-loop",
+   "label": "沉淀与迭代闭环",
+   "fromCol": 4,
+   "toCol": 5
+  }
+ ],
+ "mainPath": [
+  "task",
+  "spec",
+  "match",
+  "exec",
+  "qa",
+  "sediment",
+  "inject"
+ ],
+ "nodes": [
+  {
+   "id": "task",
+   "lane": "user",
+   "col": 0,
+   "type": "external",
+   "label": "任务进来",
+   "sublabel": "有产出物 / 触发词激活"
+  },
+  {
+   "id": "spec",
+   "lane": "lead",
+   "col": 1,
+   "type": "backend",
+   "label": "拆解任务规格书",
+   "sublabel": "目标/范围/产出物/禁止项",
+   "tag": "主会话只编排"
+  },
+  {
+   "id": "match",
+   "lane": "pool",
+   "col": 2,
+   "type": "backend",
+   "label": "匹配角色池",
+   "sublabel": "INDEX 注册表按专长",
+   "tag": "未命中→兜底"
+  },
+  {
+   "id": "exec",
+   "lane": "agent",
+   "col": 3,
+   "type": "backend",
+   "label": "角色 spawn 执行",
+   "sublabel": "定义 + 话题经验注入",
+   "width": 120
+  },
+  {
+   "id": "qa",
+   "lane": "lead",
+   "col": 4,
+   "type": "backend",
+   "label": "质检汇总交付",
+   "sublabel": "完整性 / 符合规格"
+  },
+  {
+   "id": "sediment",
+   "lane": "pool",
+   "col": 4,
+   "type": "backend",
+   "label": "经验落盘",
+   "sublabel": "提案 → 确认 → topics/",
+   "tag": "识别自主 写入人工"
+  },
+  {
+   "id": "inject",
+   "lane": "pool",
+   "col": 5,
+   "type": "backend",
+   "label": "下次任务注入",
+   "sublabel": "闭环:越用越熟"
+  },
+  {
+   "id": "iteration",
+   "lane": "bench",
+   "col": 3,
+   "type": "backend",
+   "label": "迭代修改",
+   "sublabel": "角色/skill/协议",
+   "tag": "压测铁律触发"
+  },
+  {
+   "id": "eval",
+   "lane": "bench",
+   "col": 4,
+   "type": "backend",
+   "label": "盲评打分",
+   "sublabel": "只看用例+回答",
+   "tag": "bench-evaluator"
+  },
+  {
+   "id": "compare",
+   "lane": "bench",
+   "col": 5,
+   "type": "backend",
+   "label": "对比历史得分",
+   "sublabel": "降级警告 / 2轮→已验证",
+   "width": 110
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "from": "task",
+   "to": "spec"
+  },
+  {
+   "id": "e2",
+   "from": "spec",
+   "to": "match"
+  },
+  {
+   "id": "e3",
+   "from": "match",
+   "to": "exec",
+   "label": "命中"
+  },
+  {
+   "id": "e4",
+   "from": "exec",
+   "to": "qa"
+  },
+  {
+   "id": "e5",
+   "from": "qa",
+   "to": "sediment",
+   "label": "回写提案→确认"
+  },
+  {
+   "id": "e6",
+   "from": "sediment",
+   "to": "inject",
+   "label": "落盘"
+  },
+  {
+   "id": "e7",
+   "from": "inject",
+   "to": "task",
+   "label": "闭环",
+   "variant": "dashed"
+  },
+  {
+   "id": "e8",
+   "from": "exec",
+   "to": "iteration",
+   "label": "改进驱动",
+   "variant": "dashed"
+  },
+  {
+   "id": "e9",
+   "from": "iteration",
+   "to": "eval"
+  },
+  {
+   "id": "e10",
+   "from": "eval",
+   "to": "compare"
+  },
+  {
+   "id": "e11",
+   "from": "compare",
+   "to": "iteration",
+   "label": "🔴 降级 → 回滚/修正",
+   "variant": "security"
+  }
+ ]
+}
