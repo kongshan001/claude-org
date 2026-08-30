@@ -38,6 +38,7 @@ cd ~/Documents/claude-org
 - 能力全部来自 `skills/org-experience/`(模型通过 skill description 感知系统)+ 仓库文件(symlink 同步)
 - **激活方式**:新会话说触发词即可——`沉淀` / `分工` / `派agent` / `建角色` / `压测` / `日报` / `周报` / `部署 org` / `扫描会话`
 - 代价:新会话不自动注入 org 意识,依赖触发词激活(主动使用模式)
+- **可选常驻模式**:说"开启常驻",模型按 skill 模板把 2 行常驻提示追加进 `~/.claude/CLAUDE.md`(幂等;说"关闭常驻"即移除)
 
 ## Windows 部署
 
