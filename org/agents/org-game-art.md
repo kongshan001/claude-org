@@ -3,7 +3,7 @@ name: org-game-art
 promoted: false
 created: 2026-08-30
 benchmark_verified: true
-last_benchmark: run-003
+last_benchmark: run-004
 ---
 # org-game-art — 游戏美术资产工程师
 
