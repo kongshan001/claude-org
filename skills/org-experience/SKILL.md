@@ -1,6 +1,6 @@
 ---
 name: org-experience
-description: Use when 任务需要按经验分工/调度多个 Agent、对话中产生值得沉淀的经验(踩坑/结论/验证过的方案/决策)、需要创建或整理 Agent 角色、或用户说"沉淀/分工/派agent/建角色/组织 agent/压测/日报/周报/部署 org/装 org/扫描会话/挖掘历史"。管理 ~/.claude/org/ 全局经验池:话题沉淀、角色注册表、动态调度、角色晋升、零侵入部署。
+description: Use when 任务需要经验分工/调度 Agent、沉淀经验(踩坑/结论/验证/决策)、创建角色,或用户说触发词:沉淀/分工/派agent/建角色/组织agent/压测/日报/周报/部署org/装org/扫描会话/挖掘历史。管理 ~/.claude/org 全局经验池:话题沉淀、角色注册表、动态调度、零侵入部署。
 ---
 
 # org — 经验组织系统
@@ -83,7 +83,7 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 - 完成项经确认后标记 `[x]` 并移入 Done 区;不相关的闲聊不记
 - 跨设备:`org/todo.md` 在仓库内,git 同步
 
-## Benchmark 压测协议(agent-bench)
+## Benchmark 压测协议(benchmark 子系统)
 
 **触发(硬性铁律)**:任何 agent 迭代(角色文件修改)、skill/协议修改、话题经验重大更新完成后,**必须跑一轮压测——压测未跑,迭代不算完成**。
 
