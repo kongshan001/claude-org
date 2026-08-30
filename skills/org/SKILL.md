@@ -44,6 +44,16 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 5. **失败降级**:agent spawn 失败或反复失败 → **提案给用户**(换 general-executor?重试?主会话直接做?)→ 用户批准后才执行。禁止自动主会话接手
 6. **新角色演进**:general-executor 完成同类工作 ≥2 次且效果稳定 → 主会话提案"为该类工作建专门角色" → 用户批准 → 创建 `agents/<slug>.md` 并更新注册表
 
+## 委托协议(org-coordinator 模式,一切皆 agent)
+
+主会话可按需委托编排给 `org-coordinator`(大任务/多角色任务默认委托;小任务主会话快编):
+
+1. 主会话 spawn org-coordinator,注入:任务原文 + INDEX.md 全文 + 本 skill 协议要点
+2. coordinator 产出:任务规格书 + 角色匹配建议 + 派发计划 → 交回主会话
+3. 主会话确认派发计划(或直接放行)→ coordinator 派发执行 agent 并质检汇总
+4. **硬约束:coordinator 无写盘权**——它只提案(沉淀条目/新角色/降级路径),落盘必须经主会话 + 用户确认;spawn 时明确禁止其 Write 到 `~/.claude/org/` 及 claude-org 仓库
+5. 失败时 coordinator 提案降级路径,经主会话转达用户
+
 ## 回写协议(任务完成后)
 
 - 收集各角色的新经验(踩坑/验证结果/可复用技能)→ 按沉淀协议**提案 → 确认 → 写入**

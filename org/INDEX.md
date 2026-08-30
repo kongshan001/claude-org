@@ -14,6 +14,7 @@
 
 | 角色 | 路径 | 专长 | 状态 |
 |---|---|---|---|
+| org-coordinator | `agents/org-coordinator.md` | 编排:拆解/匹配/派发/质检/提案(无写盘权) | 实验期 |
 | general-executor | `agents/general-executor.md` | 通用兜底:按任务规格书执行,无专长 | 内置 |
 | game-art-agent | `agents/game-art-agent.md` | 2D 游戏美术资产:生图/动画/飞书交付 | 实验期 |
 
