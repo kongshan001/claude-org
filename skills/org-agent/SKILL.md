@@ -119,8 +119,8 @@ ${ORG_ROOT}/org/
 
 **触发**:用户说"扫描/挖掘历史会话";可周期执行(新会话积累后)。
 
-1. **摸底**:`ls ~/.claude/projects/*/` 统计各项目 jsonl 数量与大小,按时间挑最近/最有价值的会话
-2. **提取**:`python3 scripts/session_extract.py <session.jsonl> <output.txt>`(只取 user/assistant 文本,工具调用折叠;单文件 >~50K tokens 时降 max_lines 或分段)
+1. **摸底**:Claude Code 会话在 `~/.claude/projects/*/`(jsonl);DSH 会话在 `~/.dsh/sessions/<项目>/session-<uuid>/`(**session.jsonl.zstd**,zstd 压缩)——按工具分别挑最近/最有价值的会话
+2. **提取**:`python3 scripts/session_extract.py <session.jsonl[.zstd]> <output.txt>`(自动检测 Claude Code/DSH 格式,.zstd 自动解压——zstandard 库优先,fallback zstd CLI;只取 user/assistant 文本,工具调用折叠;单文件 >~50K tokens 时降 max_lines 或分段)
 3. **挖掘**:spawn `org-general-executor`(或按领域匹配专门角色),注入提取文本 + 沉淀标准(结论/踩坑/验证/决策,带证据与置信度)
 4. **提案**:候选条目按话题归类 → 展示给用户 → 确认后落盘新话题/追加既有话题
 5. **角色联动**:挖掘出的新领域经验 → 按"新角色演进"提案建专门角色 + 首轮用例
