@@ -74,6 +74,18 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
    - 持平/升高 → 更新 baseline;连续 2 轮升高 → 标记"已验证提升",更新角色验证记录
 6. 评估结果与对比全部可人工复核
 
+## 日报/周报协议(org-coordinator 负责)
+
+**触发**:用户说"日报/周报/出一份报告";可挂 cron 定时(见下)。
+
+1. 主会话 spawn `org-coordinator`,注入:INDEX.md 全文 + 本 skill 协议要点 + git log 摘要
+2. coordinator 读取 org 仓库状态(INDEX/topics/agents/benchmarks/todo/git log)生成报告:
+   - **日报**:今日沉淀条目(话题×条数)、角色动态(新建/迭代/晋升/压测)、压测得分与对比、待办状态、成本记录(如有)
+   - **周报**:本周累计沉淀、角色演化时间线、benchmark 趋势表、待办盘点、下周建议
+3. 报告落盘 `reports/daily/YYYY-MM-DD.md` 或 `reports/weekly/YYYY-WW.md`(仓库内,跨设备同步)
+4. 经主会话确认后发飞书交付(可选)
+5. 定时:如需自动日报,挂 cc-connect cron(主会话提示用户批准后配置)
+
 ## 回写协议(任务完成后)
 
 - 收集各角色的新经验(踩坑/验证结果/可复用技能)→ 按沉淀协议**提案 → 确认 → 写入**
