@@ -18,7 +18,7 @@ description: Use when 任务需要经验分工/调度 Agent、沉淀经验(踩�
 **ORG_ROOT = 仓库根目录**。解析规则(模型执行时):
 
 - **类 Unix(推荐)**: `readlink ~/.claude/skills/org-agent` → 得到 `<仓库>/skills/org-agent` → 其上两级即 ORG_ROOT
-- **Windows(复制模式)**: skill 是 `~/.claude/skills/org-agent` 的独立副本,无 symlink 可解析 → ORG_ROOT = 用户 clone 仓库的位置(README 默认 `~/Documents/claude-org`,可自定义;模型找不到时询问用户)
+- **Windows(复制模式)**: skill 是 `~/.claude/skills/org-agent` 的独立副本,无 symlink 可解析 → **ORG_ROOT 约定为 `$HOME/agent-org`(即 C:\Users\admin\agent-org)**,可自定义;模型找不到时询问用户
 - **协议中所有路径**统一写作 `${ORG_ROOT}/org/...`、`${ORG_ROOT}/benchmarks/...`——执行时解析,禁止假设 Documents 固定路径
 
 ## 目录结构

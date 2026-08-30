@@ -30,7 +30,10 @@ cd ~/Documents/claude-org
 ./doctor.sh         # 健康检查
 ```
 
-**仓库位置约定**:默认 clone 到 `~/Documents/claude-org`;**Windows 可自定义**(如 OneDrive 重定向 Documents),skill 按顶部路径解析规则动态定位。
+**仓库位置约定**:
+- 类 Unix(默认): `~/Documents/claude-org`
+- **Windows(默认)**: `C:\Users\admin\agent-org`(Git Bash 路径 `$HOME/agent-org`)
+- skill 按顶部路径解析规则动态定位(ORG_ROOT),两平台均可自定义
 
 ### 部署原则:零侵入
 
@@ -45,7 +48,8 @@ cd ~/Documents/claude-org
 要求:Claude Code + **Git Bash**(无 jq 依赖,最小侵入版不再需要)。
 
 ```bash
-# Git Bash 中进入仓库目录:
+# Git Bash 中(仓库位于 $HOME/agent-org):
+cd $HOME/agent-org
 ./install.sh        # 自动检测 Windows → 复制模式部署
 ./cron-jobs.sh      # 定时任务(在 Claude Code 会话环境执行)
 ./doctor.sh         # 健康检查
