@@ -18,7 +18,7 @@
 | org-todo-organizer | `agents/org-todo-organizer.md` | 待办整理:识别/提案/维护 org/todo.md | 实验期 |
 | org-bench-evaluator | `agents/org-bench-evaluator.md` | 压测评估:盲评打分/验收点判定 | 实验期 |
 | org-general-executor | `agents/org-general-executor.md` | 通用兜底:按任务规格书执行,无专长 | 内置 |
-| org-game-art | `agents/org-game-art.md` | 2D 游戏美术资产:生图/动画/飞书交付 | 实验期 |
+| org-game-art | `agents/org-game-art.md` | 2D 游戏美术资产:生图/动画/飞书交付 | 🏅 已验证(3轮压测) |
 
 ## 命名规则
 
