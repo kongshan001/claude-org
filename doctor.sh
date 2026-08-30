@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# org 部署健康检查(最小侵入版):symlink ×2 + cron ×2
+# org 部署健康检查:数据层 + skill symlink + cron
 # 不再检查 settings.json / CLAUDE.md(部署零侵入)
 set -uo pipefail
 

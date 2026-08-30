@@ -16,9 +16,4 @@ rm -rf "$CLAUDE_DIR/skills/org-agent"
 cp -R "$REPO_DIR/skills/org-agent" "$CLAUDE_DIR/skills/org-agent"
 say "已同步 skills/org-agent"
 
-mkdir -p "$CLAUDE_DIR/hooks"
-cp "$REPO_DIR/hooks/org-session-start.sh" "$CLAUDE_DIR/hooks/org-session-start.sh"
-chmod +x "$CLAUDE_DIR/hooks/org-session-start.sh" 2>/dev/null || true
-say "已同步 hooks/org-session-start.sh"
-
 say "完成。新开 Claude Code 会话生效。"

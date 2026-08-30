@@ -18,14 +18,14 @@
 部署 org
 ```
 
-模型读到本仓库的 `org-agent` skill 后,会按"部署协议"自动执行:检查 → `./install.sh`(只做 symlink)→ 可选 `./cron-jobs.sh` → `./doctor.sh` 验证 → 汇报。
+模型读到本仓库的 `org-agent` skill 后,会按"部署协议"自动执行:检查 → `./install.sh`(symlink skill,数据层直接用仓库目录)→ 可选 `./cron-jobs.sh` → `./doctor.sh` 验证 → 汇报。
 
 **方式二(手动):**
 
 ```bash
 git clone https://github.com/kongshan001/claude-org.git ~/Documents/claude-org
 cd ~/Documents/claude-org
-./install.sh        # 只做 symlink(org/ + skills/org-agent/),不碰 settings.json / CLAUDE.md
+./install.sh        # symlink skills/org-agent;数据层直接用仓库目录,不碰 settings.json / CLAUDE.md
 ./cron-jobs.sh      # 定时任务(可选,日报 08:57 + 周报 周五 09:07)
 ./doctor.sh         # 健康检查
 ```
@@ -38,7 +38,7 @@ cd ~/Documents/claude-org
 ### 部署原则:零侵入
 
 - **不写 settings.json、不改 CLAUDE.md** —— 用户本地配置零改动
-- 能力全部来自 `skills/org-agent/`(模型通过 skill description 感知系统)+ 仓库文件(symlink 同步)
+- 能力全部来自 `skills/org-agent/`(模型通过 skill description 感知系统)+ 仓库文件(skill symlink,数据层独立)
 - **激活方式**:新会话说触发词即可——`沉淀` / `分工` / `派agent` / `建角色` / `压测` / `日报` / `周报` / `部署 org` / `扫描会话`
 - 代价:新会话不自动注入 org 意识,依赖触发词激活(主动使用模式)
 - **可选常驻模式**:说"开启常驻",模型按 skill 模板把 2 行常驻提示追加进 `~/.claude/CLAUDE.md`(幂等;说"关闭常驻"即移除)
@@ -63,7 +63,7 @@ cd $HOME/agent-org
 
 - 正常聊天即可,识别到经验会自动提案
 - 说"沉淀/分工/派agent/建角色/组织agent" → 走 `org` skill 完整协议
-- 经验同步:`cd ~/Documents/claude-org && git add -A && git commit -m "..." && git push`
+- 经验同步:`cd ${ORG_ROOT}(仓库根)&& git add -A && git commit -m "..." && git push`
 
 ## 结构
 

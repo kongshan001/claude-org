@@ -7,14 +7,10 @@
 - [ ] 开通分账后 billing 核对 Seedance 精确单价(已实测 ≤1 元/条并补记经验) | 低 | 2026-08-30 | 精确金额待账
 - [ ] org-game-art 晋升提案(harness 原生 agent) | 中 | 2026-08-30 | 已验证提升,待提案
 
-## Doing
-
 ## Done
 - [x] 首轮 baseline 压测(org-game-art 3 用例,均分 95.8) | 高 | 2026-08-30 | run-001
 - [x] 实测 Seedance 单价并补记经验 | 高 | 2026-08-30 | 实测 ≤1 元/条,已补记 ark-game-art(精确金额待 billing)
 - [x] org-coordinator 真任务委托验证(一切皆 agent 第2步) | 中 | 2026-08-30 | 日报生成任务,通过(无写盘、数据完整)
-
-## Done
 - [x] org MVP 闭环演示(沉淀→建角色→调度) | 高 | 2026-08-30 会话 | 已跑通
 - [x] org v2 工作流(主会话纯编排 + org-general-executor) | 高 | 2026-08-30 | 已实施推送
 - [x] org-coordinator 角色注册(一切皆 agent 第1步) | 高 | 2026-08-30 | 已推送

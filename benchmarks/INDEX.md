@@ -7,13 +7,13 @@
 
 | 用例 | 路径 | 被测 agent | 状态 |
 |---|---|---|---|
-| (待沉淀 — 见下方提案) | `cases/<case-id>.md` | — | — |
+| 11 个用例(art×3 + pf/pe/wg/cf×8) | `cases/*.md` | org-game-art / org-pathfinder / org-perf-engineer / org-webgl-dev / org-cpp-ffi | 活跃 |
 
 ## 运行记录
 
 | Run | 日期 | 被测 agent | 均分 | 对比 |
 |---|---|---|---|---|
-| (首轮 baseline 待跑) | — | — | — | — |
+| run-001~006 | 2026-08-30 | org-game-art(100×4轮🏅)/ webgl-dev(87.5→100)/ pathfinder(100)/ perf(93.75)/ cpp-ffi(100) | 详见 results.md |
 
 ## 规则速查
 

@@ -24,7 +24,7 @@ org 系统的对接分三层,每层的跨工具策略不同:
 
 ```bash
 git clone https://github.com/kongshan001/claude-org.git ~/Documents/claude-org   # 类 Unix;Windows: $HOME/agent-org
-cd ~/Documents/claude-org && ./install.sh   # symlink org/ + skills/org-agent/
+cd ~/Documents/claude-org && ./install.sh   # symlink skills/org-agent;数据层独立
 # 角色发布:说"发布 org-game-art" → 模型按规范写盘 ~/.claude/agents/
 ```
 
