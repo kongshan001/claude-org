@@ -13,16 +13,23 @@
 ## 安装(新设备)
 
 ```bash
-git clone <repo-url> ~/Documents/claude-org
+git clone https://github.com/kongshan001/claude-org.git ~/Documents/claude-org
 cd ~/Documents/claude-org
-./install.sh
+./install.sh        # 静态配置:org/ + skills/org/ symlink、SessionStart hook、CLAUDE.md
+./cron-jobs.sh      # 定时任务:日报(每天08:57)+ 周报(每周五09:07),需在 Claude Code 会话环境执行
 ```
 
-安装脚本(幂等,可重复跑)会:
+**约定路径(勿改)**:仓库固定 clone 到 `~/Documents/claude-org`(cron prompt 内引用该路径)。
+
+install.sh(幂等)会:
 1. `~/.claude/org/` → symlink 到仓库 `org/`(经验随 git 同步)
 2. `~/.claude/skills/org/` → symlink 到仓库 `skills/org/`
-3. `settings.json` 合并 SessionStart hook(注入 org 协议,去重)
+3. `settings.json` 合并 SessionStart hook(注入 org 协议 + 角色池,去重)
 4. `CLAUDE.md` 追加 org 协议块(去重)
+
+cron-jobs.sh(幂等)会:
+1. 按 desc 清理已有同名 cron 任务
+2. 部署日报(每天 08:57)+ 周报(每周五 09:07),`--session-mode new-per-run`
 
 完成后**新开一个 Claude Code 会话**即生效。
 

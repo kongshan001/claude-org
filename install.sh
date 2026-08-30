@@ -78,3 +78,4 @@ fi
 
 say "完成。新开一个 Claude Code 会话即可生效(hook 不作用于当前会话)。"
 say "跨设备同步:cd $REPO_DIR && git pull;沉淀经验后 git push。"
+say "定时任务(日报/周报):在 Claude Code 会话环境运行 ./cron-jobs.sh 部署"
