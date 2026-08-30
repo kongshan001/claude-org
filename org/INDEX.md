@@ -9,6 +9,13 @@
 |---|---|---|---|
 | 火山方舟游戏美术管线 | `topics/ark-game-art/` | 生图、精灵图、Q版、动画、序列帧、Seedream、Seedance、飞书 | 活跃 |
 | org 系统自身运维 | `topics/agent-org-ops/` | org、install.sh、hook、幂等、自举 | 活跃 |
+| 寻路性能 | `topics/pathfinding-perf/` | FFI、marshaling、DLL、优化杠杆、ALT | 会话挖掘 |
+| 基准测试方法论 | `topics/benchmark-methodology/` | 微基准、校准、测量顺序、反汇编 | 会话挖掘 |
+| hex JPS 寻路 | `topics/hex-jps/` | JPS、hex、跳跃点、六边形 | 会话挖掘 |
+| WebGL 渲染 | `topics/webgl-rendering/` | WebGL、BLEND、截图、像素回归、自验收 | 会话挖掘 |
+| Bug 模式 | `topics/bug-patterns/` | 默认值、堆、map、shift、退化 | 会话挖掘 |
+| C++/FFI 构建 | `topics/cpp-ffi-pitfalls/` | visibility、dylib、ctypes、nm、C extension | 会话挖掘 |
+| 中间层契约 | `topics/middleware-contract/` | 契约、接口、多语言对齐、重构 | 会话挖掘 |
 
 ## 角色清单
 
@@ -19,6 +26,10 @@
 | org-bench-evaluator | `agents/org-bench-evaluator.md` | 压测评估:盲评打分/验收点判定 | 实验期 |
 | org-general-executor | `agents/org-general-executor.md` | 通用兜底:按任务规格书执行,无专长 | 内置 |
 | org-game-art | `agents/org-game-art.md` | 2D 游戏美术资产:生图/动画/飞书交付 | 🏅 已验证(3轮压测) |
+| org-pathfinder | `agents/org-pathfinder.md` | 寻路算法(hex JPS/A*)/多语言移植/中间层契约 | 会话挖掘 |
+| org-perf-engineer | `agents/org-perf-engineer.md` | FFI/DLL 性能优化/benchmark 方法论 | 会话挖掘 |
+| org-webgl-dev | `agents/org-webgl-dev.md` | WebGL 渲染/像素验收/交付自验 | 会话挖掘 |
+| org-cpp-ffi | `agents/org-cpp-ffi.md` | C++ 构建/导出符号/ctypes 对接 | 会话挖掘 |
 
 ## 命名规则
 
