@@ -8,6 +8,7 @@
 | 话题 | 路径 | 触发关键词 | 状态 |
 |---|---|---|---|
 | 火山方舟游戏美术管线 | `topics/ark-game-art/` | 生图、精灵图、Q版、动画、序列帧、Seedream、Seedance、飞书 | 活跃 |
+| org 系统自身运维 | `topics/agent-org-ops/` | org、install.sh、hook、幂等、自举 | 活跃 |
 
 ## 角色清单
 
