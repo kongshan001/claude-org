@@ -37,7 +37,7 @@ mkdir -p ~/.codex/skills && cp -R skills/org-agent ~/.codex/skills/
 # 角色层:说"发布 org-pathfinder --target codex" → 模型写盘 ~/.codex/agents/
 ```
 
-Codex 的 SKILL.md frontmatter(name/description)与标准一致,支持实验字段 `allowed-tools`(org 未用,省略即可)。Codex 另读 `AGENTS.md` 作常驻指令——如需常驻,把 `templates/claude-md-always-on.md` 内容追加进 `~/.codex/AGENTS.md`(模型按流程执行)。
+Codex 的 SKILL.md frontmatter(name/description)与标准一致,支持实验字段 `allowed-tools`(org 未用,省略即可)。Codex 另读 `AGENTS.md` 作常驻指令——如需常驻,把 `templates/always-on.md` 内容追加进 `~/.codex/AGENTS.md`(模型按流程执行)。
 
 ### 3. Cursor
 
@@ -60,6 +60,7 @@ dsh plugin --profile web add <本地tarball或npm包名>   # 例如 @kongshan001
 DSH 特有注意:
 - 插件按 profile 隔离(`--profile web|headless`),按需装到对应 profile
 - settings.yaml 可配 agent-presets;org 触发词模型侧生效方式同 Claude Code
+- **常驻机制 = `~/.dsh/AGENTS.md`**(用户级,agent-instructions 插件每次会话自动加载;项目级还支持 AGENTS.md/CLAUDE.md 逐级发现,同内容去重,AGENTS.md 优先)——说"开启常驻"时模型追加到该文件
 - 数据层:`org/` 经验池放任意位置,skill 定义里写绝对路径即可
 
 ### 5. 新工具接入模板(通用)
