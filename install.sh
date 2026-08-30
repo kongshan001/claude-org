@@ -49,7 +49,7 @@ fi
 
 # ── 3. settings.json:合并 SessionStart hook(幂等) ─────────────────
 if [ -f "$SETTINGS" ]; then
-  HOOK_CMD='jq -Rn --rawfile c "$HOME/.claude/org/hook-context.md" '\''{hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:$c}}'\'''
+  HOOK_CMD='{ cat "$HOME/.claude/org/hook-context.md"; printf "\n## 当前 Agent 角色池(INDEX.md)\n"; cat "$HOME/.claude/org/INDEX.md"; } | jq -Rs '\''{hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:.}}'\'''
   if jq -e '[.hooks.SessionStart[]? | .hooks[]? | .command? // "" | contains("hook-context")] | any' "$SETTINGS" >/dev/null 2>&1; then
     say "SessionStart hook 已存在,跳过"
   else
