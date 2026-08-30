@@ -102,7 +102,21 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 2. 用户批准 → 写 `~/.claude/agents/<slug>.md`(frontmatter: name/description + 正文)
 3. `agents/<slug>.md` 标注 `promoted: true` + 指针
 
-## 角色文件格式
+## Agent / Skill 边界规则
+
+| 判断维度 | → Agent(角色) | → Skill / Topic 知识 |
+|---|---|---|
+| 本质 | **谁来做**(身份/职责/决策者) | **怎么做**(方法/协议/知识) |
+| 需要独立上下文窗口执行? | 是(spawn、被调度匹配) | 否(按需查阅) |
+| 有状态? | 有(验证记录/压测分数) | 无(纯知识) |
+| 内容类型 | 职责、专长、指针 | 命令、参数、协议、踩坑 |
+
+- **专长只放关键词(≤5 条)**:协议/命令/参数一律放 `topics/<话题>/skills.md`
+- **经验永不内联**:踩坑 → topics/*/experience.md;分数权威源 → benchmarks/results.md
+- **角色文件 >40 行 → 触发瘦身迁移提案**(外移内容,恢复指针)
+- 沉淀决策:系统性工作流(多步骤、跨话题)→ 独立 skill;单话题协议 → topics/skills.md;身份职责 → agents/
+
+## 角色文件格式(指针化模板)
 
 ```markdown
 ---
@@ -112,11 +126,11 @@ created: YYYY-MM-DD
 ---
 # <角色名>
 
-- 职责:...
-- 专长:...
-- 关联话题:topics/<slug>(读 experience.md 再开工)
-- 经验引用:topic 内条目链接/日期
-- 验证记录:日期 | 任务 | 结果
+- 职责:一句话
+- 专长:≤5 条关键词(用 | 分隔);协议/参数一律外移关联话题 skills.md
+- 关联话题:topics/<slug>(开工先读 experience.md + skills.md 全文)
+- 验证记录:汇总行 + 指针(权威源 benchmarks/results.md),只留最近 2 条
+- 行数红线:>40 行触发瘦身迁移提案
 ```
 
 ## 自举提醒
