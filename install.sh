@@ -47,22 +47,31 @@ else
   say "已创建 symlink: ~/.claude/skills/org → $REPO_DIR/skills/org"
 fi
 
-# ── 3. settings.json:合并 SessionStart hook(幂等) ─────────────────
+# ── 3. hooks 脚本:复制 org-session-start.sh 到 ~/.claude/hooks/ ────
+HOOKS_DIR="$CLAUDE_DIR/hooks"
+mkdir -p "$HOOKS_DIR"
+if [ "$REPO_DIR/hooks/org-session-start.sh" -nt "$HOOKS_DIR/org-session-start.sh" ] 2>/dev/null || [ ! -f "$HOOKS_DIR/org-session-start.sh" ]; then
+  cp "$REPO_DIR/hooks/org-session-start.sh" "$HOOKS_DIR/org-session-start.sh"
+  chmod +x "$HOOKS_DIR/org-session-start.sh"
+  say "已安装 hooks/org-session-start.sh"
+else
+  say "hooks/org-session-start.sh 已是最新,跳过"
+fi
+
+# ── 4. settings.json:合并 SessionStart hook(幂等,清理旧内联版) ──
 if [ -f "$SETTINGS" ]; then
-  HOOK_CMD='{ cat "$HOME/.claude/org/hook-context.md"; printf "\n## 当前 Agent 角色池(INDEX.md)\n"; cat "$HOME/.claude/org/INDEX.md"; } | jq -Rs '\''{hookSpecificOutput:{hookEventName:"SessionStart",additionalContext:.}}'\'''
-  if jq -e '[.hooks.SessionStart[]? | .hooks[]? | .command? // "" | contains("hook-context")] | any' "$SETTINGS" >/dev/null 2>&1; then
-    say "SessionStart hook 已存在,跳过"
-  else
-    jq --arg cmd "$HOOK_CMD" \
-      '.hooks.SessionStart += [{"matcher":"startup","hooks":[{"type":"command","command":$cmd}]}]' \
-      "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
-    say "已合并 SessionStart hook 到 settings.json"
-  fi
+  HOOK_CMD="$HOME/.claude/hooks/org-session-start.sh"
+  # 先清理历史内联命令(hook-context 字样)与已装路径版,统一为路径版
+  jq --arg cmd "$HOOK_CMD" '
+    .hooks.SessionStart = ([.hooks.SessionStart[]? | select(any(.hooks[]?; ((.command? // "") | contains("hook-context")) or ((.command? // "") | contains("org-session-start"))) | not)]
+      + [{"matcher":"startup","hooks":[{"type":"command","command":$cmd}]}])
+  ' "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
+  say "SessionStart hook 已统一为路径版: $HOOK_CMD"
 else
   warn "未找到 settings.json,跳过 hook(可手动按 README 添加)"
 fi
 
-# ── 4. CLAUDE.md:追加 org 协议块(幂等) ────────────────────────────
+# ── 5. CLAUDE.md:追加 org 协议块(幂等) ────────────────────────────
 if [ -f "$CLAUDE_MD" ]; then
   if grep -q '^# org 经验组织系统' "$CLAUDE_MD"; then
     say "CLAUDE.md 已含 org 块,跳过"

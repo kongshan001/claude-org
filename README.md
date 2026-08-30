@@ -10,26 +10,28 @@
 - **跨设备同步**:经验池和技能以 symlink 挂进 `~/.claude/`,内容活在仓库里,`git pull/push` 即同步
 - **人工确认铁律**:一切写入(沉淀/建角色/晋升/改注册表)必须先提案、等确认
 
-## 安装(新设备)
+## 安装(新设备,三步)
 
 ```bash
 git clone https://github.com/kongshan001/claude-org.git ~/Documents/claude-org
 cd ~/Documents/claude-org
-./install.sh        # 静态配置:org/ + skills/org/ symlink、SessionStart hook、CLAUDE.md
-./cron-jobs.sh      # 定时任务:日报(每天08:57)+ 周报(每周五09:07),需在 Claude Code 会话环境执行
+make setup          # = install(静态配置)+ crons(定时任务)+ doctor(健康自检)
+make doctor         # 随时复查 5 层配置状态(应全绿)
 ```
 
-**约定路径(勿改)**:仓库固定 clone 到 `~/Documents/claude-org`(cron prompt 内引用该路径)。
+**约定路径(勿改)**:仓库固定 clone 到 `~/Documents/claude-org`(cron prompt 与 hook 脚本内引用该路径)。
 
-install.sh(幂等)会:
-1. `~/.claude/org/` → symlink 到仓库 `org/`(经验随 git 同步)
-2. `~/.claude/skills/org/` → symlink 到仓库 `skills/org/`
-3. `settings.json` 合并 SessionStart hook(注入 org 协议 + 角色池,去重)
-4. `CLAUDE.md` 追加 org 协议块(去重)
+### 各层配置一览
 
-cron-jobs.sh(幂等)会:
-1. 按 desc 清理已有同名 cron 任务
-2. 部署日报(每天 08:57)+ 周报(每周五 09:07),`--session-mode new-per-run`
+| 层 | 机制 | 部署方式 | doctor 检查 |
+|---|---|---|---|
+| 经验池 `org/` | symlink → 仓库(git 同步) | install.sh | ✅ |
+| org skill | symlink → 仓库 | install.sh | ✅ |
+| SessionStart hook | 仓库 `hooks/org-session-start.sh` 复制到 `~/.claude/hooks/`,settings.json 引用路径 | install.sh | ✅ |
+| CLAUDE.md | 追加 2 行瘦身块(指针) | install.sh | ✅ |
+| cron 日报/周报 | cron-jobs.sh(幂等) | crons | ✅ |
+
+> 说明:SessionStart hook 是主通道(启动时动态注入 org 协议 + 角色池),CLAUDE.md 是兜底保险丝。hook 逻辑在仓库 `hooks/` 内,可 git 版本化、可单独测试(`echo '{}' | hooks/org-session-start.sh`)。
 
 完成后**新开一个 Claude Code 会话**即生效。
 
