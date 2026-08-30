@@ -19,11 +19,21 @@ check() { # check <名称> <条件命令>
 echo "org 部署健康检查($REPO_DIR)"
 echo
 
-echo "[1] 经验池 symlink"
-check "~/.claude/org → 仓库 org/" test -L "$CLAUDE_DIR/org" -a "$(readlink "$CLAUDE_DIR/org")" = "$REPO_DIR/org"
-
-echo "[2] org skill symlink"
-check "~/.claude/skills/org → 仓库 skills/org/" test -L "$CLAUDE_DIR/skills/org" -a "$(readlink "$CLAUDE_DIR/skills/org")" = "$REPO_DIR/skills/org"
+# 平台检测:Windows(Git Bash)= 复制模式,检查目录存在即可
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*)
+    echo "[1] 经验池(复制模式)"
+    check "~/.claude/org 已部署" test -d "$CLAUDE_DIR/org"
+    echo "[2] org skill(复制模式)"
+    check "~/.claude/skills/org 已部署" test -d "$CLAUDE_DIR/skills/org"
+    ;;
+  *)
+    echo "[1] 经验池 symlink"
+    check "~/.claude/org → 仓库 org/" test -L "$CLAUDE_DIR/org" -a "$(readlink "$CLAUDE_DIR/org")" = "$REPO_DIR/org"
+    echo "[2] org skill symlink"
+    check "~/.claude/skills/org → 仓库 skills/org/" test -L "$CLAUDE_DIR/skills/org" -a "$(readlink "$CLAUDE_DIR/skills/org")" = "$REPO_DIR/skills/org"
+    ;;
+esac
 
 echo "[3] SessionStart hook"
 check "hooks 脚本已安装" test -x "$CLAUDE_DIR/hooks/org-session-start.sh"

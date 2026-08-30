@@ -35,6 +35,23 @@ make doctor         # 随时复查 5 层配置状态(应全绿)
 
 完成后**新开一个 Claude Code 会话**即生效。
 
+## Windows 部署
+
+要求:Claude Code + **Git Bash** + jq(`winget install jq`)。
+
+```bash
+# Git Bash 中:
+cd /c/Users/<你>/.claude   # 仓库解压到任意位置后进入
+./install.sh        # 自动检测 Windows → 复制模式部署
+./cron-jobs.sh      # 定时任务(在 Claude Code 会话环境执行)
+./doctor.sh         # 健康检查(复制模式下检查目录存在)
+```
+
+- **无 symlink 依赖**:Windows 走复制模式,无管理员/开发者模式要求
+- **仓库改动后同步**:每次 `git pull` 或修改后,跑 `./sync.sh` 把最新内容复制到 `~/.claude/`
+- **hook 命令**:自动写成 `bash -c "~/.claude/hooks/org-session-start.sh"`(Git Bash 执行)
+- Makefile 仅限类 Unix(Windows 直接跑脚本)
+
 ## 使用
 
 - 正常聊天即可,识别到经验会自动提案

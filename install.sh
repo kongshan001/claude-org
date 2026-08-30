@@ -14,38 +14,49 @@ say() { printf '\033[1;34m[claude-org]\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33m[claude-org]\033[0m %s\n' "$*"; }
 die() { printf '\033[1;31m[claude-org]\033[0m %s\n' "$*" >&2; exit 1; }
 
-command -v jq >/dev/null || die "需要 jq: brew install jq"
+command -v jq >/dev/null || die "需要 jq(Windows: winget install jq;macOS: brew install jq)"
 [ -d "$CLAUDE_DIR" ] || die "未找到 ~/.claude (Claude Code 没装?)"
 
-# ── 1. org/ 经验池:symlink 到仓库(经验随 git 跨设备同步) ──────────
-if [ -L "$ORG_DIR" ]; then
-  if [ "$(readlink "$ORG_DIR")" = "$REPO_DIR/org" ]; then
-    say "org/ 已链接,跳过"
-  else
-    warn "~/.claude/org 是其他位置的 symlink,跳过(如需切换请手动处理)"
-  fi
-elif [ -e "$ORG_DIR" ]; then
-  warn "~/.claude/org 已存在且是真实目录,备份为 org.bak-$(date +%s) 后接管"
-  mv "$ORG_DIR" "$ORG_DIR.bak-$(date +%s)"
-  ln -s "$REPO_DIR/org" "$ORG_DIR"
-  say "已创建 symlink(原内容已备份)"
-else
-  ln -s "$REPO_DIR/org" "$ORG_DIR"
-  say "已创建 symlink: ~/.claude/org → $REPO_DIR/org"
+# ── 平台检测:Windows(Git Bash)= 复制模式;类 Unix = symlink 模式 ──
+IS_WINDOWS=0
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*) IS_WINDOWS=1 ;;
+esac
+if [ "$IS_WINDOWS" = 1 ]; then
+  say "检测到 Windows(Git Bash),使用复制模式部署(仓库改动后运行 ./sync.sh 同步)"
 fi
 
-# ── 2. org skill:symlink 到仓库 ────────────────────────────────────
+# ── 1. org/ 经验池:类 Unix 用 symlink;Windows 用复制 ──────────────
+deploy_dir() { # deploy_dir <目标> <源> <名称>
+  local target="$1" src="$2" name="$3"
+  if [ "$IS_WINDOWS" = 1 ]; then
+    if [ -d "$target" ]; then
+      say "$name 已部署,跳过(改仓库后跑 ./sync.sh 更新)"
+    else
+      mkdir -p "$(dirname "$target")"
+      cp -R "$src" "$target"
+      say "已复制: $name"
+    fi
+    return
+  fi
+  if [ -L "$target" ]; then
+    [ "$(readlink "$target")" = "$src" ] && say "$name 已链接,跳过" || warn "$name 指向别处,跳过"
+  elif [ -e "$target" ]; then
+    warn "$name 已存在真实目录,备份为 .bak-$(date +%s) 后接管"
+    mv "$target" "$target.bak-$(date +%s)"
+    ln -s "$src" "$target"
+    say "已创建 symlink(原内容已备份)"
+  else
+    ln -s "$src" "$target"
+    say "已创建 symlink: $target → $src"
+  fi
+}
+
+deploy_dir "$ORG_DIR" "$REPO_DIR/org" "org/"
+
+# ── 2. org skill ───────────────────────────────────────────────────
 mkdir -p "$CLAUDE_DIR/skills"
-if [ -L "$SKILL_DIR" ]; then
-  [ "$(readlink "$SKILL_DIR")" = "$REPO_DIR/skills/org" ] && say "skills/org 已链接,跳过" || warn "skills/org 指向别处,跳过"
-elif [ -e "$SKILL_DIR" ]; then
-  warn "skills/org 已存在真实目录,备份后接管"
-  mv "$SKILL_DIR" "$SKILL_DIR.bak-$(date +%s)"
-  ln -s "$REPO_DIR/skills/org" "$SKILL_DIR"
-else
-  ln -s "$REPO_DIR/skills/org" "$SKILL_DIR"
-  say "已创建 symlink: ~/.claude/skills/org → $REPO_DIR/skills/org"
-fi
+deploy_dir "$SKILL_DIR" "$REPO_DIR/skills/org" "skills/org"
 
 # ── 3. hooks 脚本:复制 org-session-start.sh 到 ~/.claude/hooks/ ────
 HOOKS_DIR="$CLAUDE_DIR/hooks"
@@ -63,7 +74,11 @@ if [ ! -f "$SETTINGS" ]; then
   echo '{"hooks":{}}' > "$SETTINGS"
   say "已创建 settings.json(全新设备,空结构)"
 fi
-HOOK_CMD="$HOME/.claude/hooks/org-session-start.sh"
+if [ "$IS_WINDOWS" = 1 ]; then
+  HOOK_CMD='bash -c "~/.claude/hooks/org-session-start.sh"'
+else
+  HOOK_CMD="$HOME/.claude/hooks/org-session-start.sh"
+fi
 # 先清理历史内联命令(hook-context 字样)与已装路径版,统一为路径版
 jq --arg cmd "$HOOK_CMD" '
   .hooks.SessionStart = ([.hooks.SessionStart[]? | select(any(.hooks[]?; ((.command? // "") | contains("hook-context")) or ((.command? // "") | contains("org-session-start"))) | not)]
