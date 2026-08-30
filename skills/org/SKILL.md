@@ -1,6 +1,6 @@
 ---
 name: org
-description: Use when 任务需要按经验分工/调度多个 Agent、对话中产生值得沉淀的经验(踩坑/结论/验证过的方案/决策)、需要创建或整理 Agent 角色、或用户说"沉淀/分工/建角色/组织 agent"。管理 ~/.claude/org/ 全局经验池:话题沉淀、角色注册表、动态调度、角色晋升。
+description: Use when 任务需要按经验分工/调度多个 Agent、对话中产生值得沉淀的经验(踩坑/结论/验证过的方案/决策)、需要创建或整理 Agent 角色、或用户说"沉淀/分工/派agent/建角色/组织 agent/压测/日报/周报/部署 org/装 org/扫描会话/挖掘历史"。管理 ~/.claude/org/ 全局经验池:话题沉淀、角色注册表、动态调度、角色晋升、零侵入部署。
 ---
 
 # org — 经验组织系统
@@ -21,6 +21,18 @@ description: Use when 任务需要按经验分工/调度多个 Agent、对话中
 ├── topics/<slug>/      # 话题:README.md(边界/关键词) experience.md(经验) skills.md(技能)
 └── agents/<slug>.md    # 角色:职责/专长/关联话题/经验引用
 ```
+
+## 部署协议(零侵入,模型 + skills 即完成)
+
+**用户说"部署 org / 装 org"时,主会话按此执行(无需改任何配置):**
+
+1. 检查 ~/.claude/org 与 ~/.claude/skills/org 的 symlink 是否指向仓库(Windows 为复制)
+2. 未部署 → 运行仓库 `./install.sh`(只做 symlink,不碰 settings.json/CLAUDE.md)
+3. 定时任务(可选)→ 提示用户跑 `./cron-jobs.sh`(Claude Code 会话环境)
+4. 验证 → 运行 `./doctor.sh`,向用户汇报 ✅/❌
+5. 告知用户:新开会话后,说触发词(沉淀/分工/派agent/压测/日报/部署)即激活本系统
+
+**设计原则**:部署零侵入——不写 settings.json、不改 CLAUDE.md;能力全部来自本 skill 的 description 触发 + 仓库文件。代价:新会话不自动注入 org 意识,依赖触发词激活(用户主动模式)。
 
 ## 沉淀协议(触发:对话中识别高置信度内容 / 任务完成 / 用户显式要求)
 

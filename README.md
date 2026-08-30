@@ -10,46 +10,48 @@
 - **跨设备同步**:经验池和技能以 symlink 挂进 `~/.claude/`,内容活在仓库里,`git pull/push` 即同步
 - **人工确认铁律**:一切写入(沉淀/建角色/晋升/改注册表)必须先提案、等确认
 
-## 安装(新设备,三步)
+## 安装(新设备,零侵入)
+
+**方式一(推荐,模型 + skills):** 开一个 Claude Code 会话,说:
+
+```
+部署 org
+```
+
+模型读到本仓库的 `org` skill 后,会按"部署协议"自动执行:检查 → `./install.sh`(只做 symlink)→ 可选 `./cron-jobs.sh` → `./doctor.sh` 验证 → 汇报。
+
+**方式二(手动):**
 
 ```bash
 git clone https://github.com/kongshan001/claude-org.git ~/Documents/claude-org
 cd ~/Documents/claude-org
-make setup          # = install(静态配置)+ crons(定时任务)+ doctor(健康自检)
-make doctor         # 随时复查 5 层配置状态(应全绿)
+./install.sh        # 只做 symlink(org/ + skills/org/),不碰 settings.json / CLAUDE.md
+./cron-jobs.sh      # 定时任务(可选,日报 08:57 + 周报 周五 09:07)
+./doctor.sh         # 健康检查
 ```
 
-**约定路径(勿改)**:仓库固定 clone 到 `~/Documents/claude-org`(cron prompt 与 hook 脚本内引用该路径)。
+**约定路径(勿改)**:仓库固定 clone 到 `~/Documents/claude-org`(cron prompt 引用该路径)。
 
-### 各层配置一览
+### 部署原则:零侵入
 
-| 层 | 机制 | 部署方式 | doctor 检查 |
-|---|---|---|---|
-| 经验池 `org/` | symlink → 仓库(git 同步) | install.sh | ✅ |
-| org skill | symlink → 仓库 | install.sh | ✅ |
-| SessionStart hook | 仓库 `hooks/org-session-start.sh` 复制到 `~/.claude/hooks/`,settings.json 引用路径 | install.sh | ✅ |
-| CLAUDE.md | 追加 2 行瘦身块(指针) | install.sh | ✅ |
-| cron 日报/周报 | cron-jobs.sh(幂等) | crons | ✅ |
-
-> 说明:SessionStart hook 是主通道(启动时动态注入 org 协议 + 角色池),CLAUDE.md 是兜底保险丝。hook 逻辑在仓库 `hooks/` 内,可 git 版本化、可单独测试(`echo '{}' | hooks/org-session-start.sh`)。
-
-完成后**新开一个 Claude Code 会话**即生效。
+- **不写 settings.json、不改 CLAUDE.md** —— 用户本地配置零改动
+- 能力全部来自 `skills/org/`(模型通过 skill description 感知系统)+ 仓库文件(symlink 同步)
+- **激活方式**:新会话说触发词即可——`沉淀` / `分工` / `派agent` / `建角色` / `压测` / `日报` / `周报` / `部署 org` / `扫描会话`
+- 代价:新会话不自动注入 org 意识,依赖触发词激活(主动使用模式)
 
 ## Windows 部署
 
-要求:Claude Code + **Git Bash** + jq(`winget install jq`)。
+要求:Claude Code + **Git Bash**(无 jq 依赖,最小侵入版不再需要)。
 
 ```bash
-# Git Bash 中:
-cd /c/Users/<你>/.claude   # 仓库解压到任意位置后进入
+# Git Bash 中进入仓库目录:
 ./install.sh        # 自动检测 Windows → 复制模式部署
 ./cron-jobs.sh      # 定时任务(在 Claude Code 会话环境执行)
-./doctor.sh         # 健康检查(复制模式下检查目录存在)
+./doctor.sh         # 健康检查
 ```
 
 - **无 symlink 依赖**:Windows 走复制模式,无管理员/开发者模式要求
-- **仓库改动后同步**:每次 `git pull` 或修改后,跑 `./sync.sh` 把最新内容复制到 `~/.claude/`
-- **hook 命令**:自动写成 `bash -c "~/.claude/hooks/org-session-start.sh"`(Git Bash 执行)
+- **仓库改动后同步**:每次 `git pull` 或修改后,跑 `./sync.sh` 复制到 `~/.claude/`
 - Makefile 仅限类 Unix(Windows 直接跑脚本)
 
 ## 使用
