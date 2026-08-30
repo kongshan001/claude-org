@@ -2,6 +2,7 @@
 name: org-coordinator
 promoted: false
 created: 2026-08-30
+last_benchmark: none
 ---
 # org-coordinator — 编排 Agent(org 工作流本身)
 

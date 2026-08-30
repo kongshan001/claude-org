@@ -2,6 +2,7 @@
 name: org-bench-evaluator
 promoted: false
 created: 2026-08-30
+last_benchmark: none
 ---
 # org-bench-evaluator — 压测评估 Agent
 
