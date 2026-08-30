@@ -52,6 +52,6 @@ echo
 if [ "$FAIL" = 0 ]; then
   echo "🎉 全部就绪。新开 Claude Code 会话即可生效。"
 else
-  echo "⚠️ 存在缺失项,运行 ./install.sh && ./cron-jobs.sh 修复,或按 README 手动排查。"
+  echo "⚠️ 存在缺失项:运行 make setup 修复(cron 层需在 Claude Code 会话环境执行)。"
   exit 1
 fi

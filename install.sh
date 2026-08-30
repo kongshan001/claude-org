@@ -59,17 +59,17 @@ else
 fi
 
 # ── 4. settings.json:合并 SessionStart hook(幂等,清理旧内联版) ──
-if [ -f "$SETTINGS" ]; then
-  HOOK_CMD="$HOME/.claude/hooks/org-session-start.sh"
-  # 先清理历史内联命令(hook-context 字样)与已装路径版,统一为路径版
-  jq --arg cmd "$HOOK_CMD" '
-    .hooks.SessionStart = ([.hooks.SessionStart[]? | select(any(.hooks[]?; ((.command? // "") | contains("hook-context")) or ((.command? // "") | contains("org-session-start"))) | not)]
-      + [{"matcher":"startup","hooks":[{"type":"command","command":$cmd}]}])
-  ' "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
-  say "SessionStart hook 已统一为路径版: $HOOK_CMD"
-else
-  warn "未找到 settings.json,跳过 hook(可手动按 README 添加)"
+if [ ! -f "$SETTINGS" ]; then
+  echo '{"hooks":{}}' > "$SETTINGS"
+  say "已创建 settings.json(全新设备,空结构)"
 fi
+HOOK_CMD="$HOME/.claude/hooks/org-session-start.sh"
+# 先清理历史内联命令(hook-context 字样)与已装路径版,统一为路径版
+jq --arg cmd "$HOOK_CMD" '
+  .hooks.SessionStart = ([.hooks.SessionStart[]? | select(any(.hooks[]?; ((.command? // "") | contains("hook-context")) or ((.command? // "") | contains("org-session-start"))) | not)]
+    + [{"matcher":"startup","hooks":[{"type":"command","command":$cmd}]}])
+' "$SETTINGS" > "$SETTINGS.tmp" && mv "$SETTINGS.tmp" "$SETTINGS"
+say "SessionStart hook 已统一为路径版: $HOOK_CMD"
 
 # ── 5. CLAUDE.md:追加 org 协议块(幂等) ────────────────────────────
 if [ -f "$CLAUDE_MD" ]; then
