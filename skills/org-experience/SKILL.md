@@ -209,6 +209,10 @@ last_benchmark: none     # 最近压测 run-id(迭代完成必填更新)
 - 行数红线:>40 行触发瘦身迁移提案
 ```
 
+## 跨工具对接(Claude Code / DSH / Codex / Cursor)
+
+三层对接:协议层 = SKILL.md 跨工具标准(复制 skill 到目标工具 skills 目录);角色层 = 发布协议多目标(claude/codex/cursor agents);数据层 = 纯文件绝对路径任何工具可读。完整矩阵与各工具步骤见 `docs/INTEGRATION.md`。DSH 走插件机制(`dsh plugin --profile <名> add <包>`)。执行能力(飞书/cron)随工具降级。
+
 ## 自举提醒
 
 **搭建/改造 org 系统本身的会话,触发机制尚未生效(CLAUDE.md 块与 hook 从下一会话才加载),经验不会自动沉淀。此时必须显式走沉淀协议,或在下一会话补沉淀。** 本会话产生的高置信度经验(踩坑/决策/验证)一律主动提案,不等自动识别。
