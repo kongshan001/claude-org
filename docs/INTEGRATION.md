@@ -15,7 +15,7 @@ org 系统的对接分三层,每层的跨工具策略不同:
 | **Claude Code** | `~/.claude/skills/`(symlink) | `~/.claude/agents/`(发布) | `./install.sh` + 发布协议 | ✅ 完成 |
 | **Codex** | `~/.codex/skills/` 或 `~/.agents/skills/`(公约) | `~/.codex/agents/` | 复制 skill + 发布协议 codex 目标 | ⚙️ 目标已定义 |
 | **Cursor** | `.cursor/skills/` + `~/.agents/skills/`(兼容) | `.cursor/agents/` | 同上 cursor 目标 | ⚙️ 目标已定义 |
-| **DSH(DeepSeek Harness)** | 插件机制(pnpm workspace) | 插件内定义 | 打包 npm 插件:`dsh plugin --profile <名> add <包>` | 📋 见下 |
+| **DSH(DeepSeek Harness)** | 无 SKILL.md 原生机制(实测)——常驻走 `~/.dsh/AGENTS.md` | 插件内定义 | 常驻块(已验证)+ 数据层直读 | ✅ 部分(常驻/数据/挖掘已验) |
 | **其他**(OpenCode/Gemini/Copilot…) | `.agents/skills/` 公约 | 各自 agents 目录 | 复制 + 发布协议扩展 | 🔧 按模板 |
 
 ## 各工具对接步骤
