@@ -38,7 +38,7 @@ ${ORG_ROOT}/org/
 2. 未部署 → 运行仓库 `./install.sh`(只做 symlink,不碰 settings.json/CLAUDE.md)
 3. 定时任务(可选)→ 提示用户跑 `./cron-jobs.sh`(Claude Code 会话环境)
 4. 验证 → 运行 `./doctor.sh`,向用户汇报 ✅/❌
-5. DSH(可选):`mkdir -p ~/.dsh/skills && ln -sfn ${ORG_ROOT}/skills/org-agent ~/.dsh/skills/org-agent`(DSH 内置 skill 机制,发现目录含 ~/.dsh/skills/,实测零配置生效)
+5. **跨工具(DSH/Codex/Cursor 等)**:`mkdir -p ~/.agents/skills && ln -sfn ${ORG_ROOT}/skills/org-agent ~/.agents/skills/org-agent`(`.agents/skills` 是跨工具公约目录,DSH/Codex/Cursor/OpenCode 全认;实测零配置生效)
 6. 告知用户:新开会话后,说触发词(沉淀/分工/派agent/压测/日报/部署)即激活本系统
 
 **设计原则**:部署零侵入——不写 settings.json、不改 CLAUDE.md;能力全部来自本 skill 的 description 触发 + 仓库文件。代价:新会话不自动注入 org 意识,依赖触发词激活(用户主动模式)。
