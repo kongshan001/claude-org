@@ -7,3 +7,7 @@
 - 2026-08-30 | 动画抽帧参数 | 技能动画需更高帧率保打击感、更短时长,不能直接复用行走的 20帧@10fps 参数 | 调度演示产出
 - 2026-08-30 | Seedance 单价缺口 | I2V 按量单价与单条时长上限未实测,动画任务成本无法预估算,待补记 | 调度演示产出
 - 2026-08-30 | Seedance 单价实测(修正) | 单条 5s 720p I2V = 108900 tokens(usage stats 实测);目录价 V2V 0.042/NV2V 0.07(元/秒口径→单条约 0.21-0.35 元,元/条口径→0.04-0.07 元);实际 <0.5 元/条,远低于此前 1-5 元预估,成本预估修正为"≤1 元/条";精确金额待开通分账后 billing 核对 | 2026-08-30 实测
+- 2026-08-31 | SSO 过期绕行 | arkcli +gen/usage 依赖控制面 SSO（GetEndpoint 需 STS），refresh_token invalid 时全部阻塞；用 profile 的 ARK API Key 直连数据面 POST https://ark.cn-beijing.volces.com/api/v3/images/generations（model 传同一 EP）出图成功，同一 EP 同一计费 | 树贴图任务实测（volc-2103924173 续期失败）
+- 2026-08-31 | Seedream 无原生 alpha | 模型输出为 JPEG RGB 无透明通道 → 四边连通域 flood-fill 抠绿 + despill + 洞填充 + 小岛清理转透明 PNG，绿边残留 0-1px | 树贴图任务实测
+- 2026-08-31 | 贴图锚点规则 | 2.5D 场景贴图须"树根/脚底压底边、水平居中"（y-sort 锚点）；用树干窄段检测定位底边实体中心，抗枝叶杂散像素 | 树贴图交付（Godot 课程需求）
+- 2026-08-31 | 成本实测 | Seedream 5.0 Lite 2048×2048 = 16,384 output tokens/张（强制 ≥3,686,400 px），0.22 元/张口径维持；4 张 ≈ 0.88 元 | usage stats 实测（SSO 修复后补核账）
