@@ -79,6 +79,43 @@ claude-org/
     └── agents/<角色>.md     # 实验角色定义(稳定后晋升)
 ```
 
+## 跨设备共享(核心优势)
+
+**经验是仓库里的纯文件,git 就是共享通道** —— 任意设备 clone/pull 即获得全部经验资产。
+
+### 三层同步分工
+
+| 层 | 位置 | 同步方式 | 说明 |
+|---|---|---|---|
+| **经验数据** | `${ORG_ROOT}/org`(仓库目录,独立于任何平台) | `git push/pull` | 话题经验/角色注册表/用例/压测记录/报告/todo |
+| **协议能力** | `~/.claude/skills/` + `~/.agents/skills/`(跨工具公约) | symlink → 仓库 | org-agent skill 随 git 更新即生效 |
+| **执行机制** | 各工具各自(CLAUDE.md / ~/.dsh/AGENTS.md 等) | "开启常驻"按协议补 | 一次性配置 |
+
+### 使用流程(设备 A → 设备 B)
+
+```bash
+# 设备 A:沉淀经验后同步
+cd ${ORG_ROOT} && git add -A && git commit -m "..." && git push
+
+# 设备 B:拉取即用
+git pull
+# 新会话说"部署 org-agent"(未部署时)→ 或直接说触发词开始使用
+```
+
+### 实际效果
+
+- 设备 A 沉淀的踩坑经验 → 设备 B 相关 agent 开工自动读取,不重复踩坑
+- 角色验证记录(如 org-game-art 🏅 4 轮满分)→ 设备 B 直接信任,无需重跑压测
+- 跨平台互通:macOS 沉淀 → Linux/Windows(`$HOME/agent-org`)pull 即用
+- 跨工具互通:同一份经验池,Claude Code / DSH / Codex / Cursor 均可读取调度
+
+### 平台位置约定
+
+| 平台 | 默认路径 |
+|---|---|
+| macOS/Linux | `~/Documents/claude-org` |
+| Windows | `C:\Users\admin\agent-org`(Git Bash:`$HOME/agent-org`) |
+
 ## 已知局限
 
 1. **触发式激活**:零侵入部署的代价——新会话不自动注入 org 意识,靠触发词激活(可选用"开启常驻"补常驻提示)
