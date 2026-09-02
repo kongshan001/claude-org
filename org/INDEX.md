@@ -17,6 +17,7 @@
 | C++/FFI 构建 | `topics/cpp-ffi-pitfalls/` | visibility、dylib、ctypes、nm、C extension | 会话挖掘 |
 | DSH 插件 | `topics/dsh-plugins/` | dsh 插件、dsh-restart、bundle、插件安装、重启、更新检查 | 活跃 |
 | 中间层契约 | `topics/middleware-contract/` | 契约、接口、多语言对齐、重构 | 会话挖掘 |
+| 二维码下载归因 | `topics/qr-download-attribution/` | 扫码、二维码、渠道归因、埋点、下载网关、UA 识别、MicroMessenger、落地页分流 | 活跃 |
 
 ## 角色清单
 
