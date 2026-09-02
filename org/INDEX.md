@@ -15,6 +15,7 @@
 | WebGL 渲染 | `topics/webgl-rendering/` | WebGL、BLEND、截图、像素回归、自验收 | 会话挖掘 |
 | Bug 模式 | `topics/bug-patterns/` | 默认值、堆、map、shift、退化 | 会话挖掘 |
 | C++/FFI 构建 | `topics/cpp-ffi-pitfalls/` | visibility、dylib、ctypes、nm、C extension | 会话挖掘 |
+| DSH 插件 | `topics/dsh-plugins/` | dsh 插件、dsh-restart、bundle、插件安装、重启、更新检查 | 活跃 |
 | 中间层契约 | `topics/middleware-contract/` | 契约、接口、多语言对齐、重构 | 会话挖掘 |
 
 ## 角色清单
@@ -24,6 +25,7 @@
 | org-coordinator | `agents/org-coordinator.md` | 编排:拆解/匹配/派发/质检/提案(无写盘权) | 实验期 |
 | org-todo-organizer | `agents/org-todo-organizer.md` | 待办整理:识别/提案/维护 org/todo.md | 实验期 |
 | org-bench-evaluator | `agents/org-bench-evaluator.md` | 压测评估:盲评打分/验收点判定 | 实验期 |
+| org-dsh-plugins | `agents/org-dsh-plugins.md` | DSH 插件:调研/安装/安全核对/重启更新/挂载验证 | 实验期 |
 | org-general-executor | `agents/org-general-executor.md` | 通用兜底:按任务规格书执行,无专长 | 内置 |
 | org-game-art | `agents/org-game-art.md` | 2D 游戏美术资产:生图/动画/飞书交付 | 🏅 已验证(3轮压测) |
 | org-pathfinder | `agents/org-pathfinder.md` | 寻路算法(hex JPS/A*)/多语言移植/中间层契约 | 会话挖掘 |
