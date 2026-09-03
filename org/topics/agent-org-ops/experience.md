@@ -11,3 +11,7 @@
 - 2026-08-31 | DSH 适配实测 | headless 模式双验证:①~/.dsh/AGENTS.md 常驻注入生效(模型感知 org 系统+复述铁律"写入先提案确认")②数据层跨工具可达(读 ${ORG_ROOT}/org/INDEX.md 准确回答 9 角色/9 话题);DSH 当前无 SKILL.md 原生机制——协议注入靠常驻块,完整协议按需读仓库文件 | dsh --profile headless 实测
 - 2026-08-31 | DSH skill 部署真相 | DSH **base bundle 内置** skill/skill-filesystem/tool-skill(默认激活),发现目录含 ~/.dsh/skills/(rank: 项目.dsh/skills → .agents/skills → custom → ~/.dsh/skills → ~/.agents/skills,symlink 可用)——部署 = `ln -sfn 仓库/skills/org-agent ~/.dsh/skills/`,零配置;弯路教训:先 `dsh --profile <名> --dump-config | grep skill` 确认机制是否内置,再决定装插件/打 bundle(曾误装 3 个 rc 库包 + 打 bundle 包装包,均因重复/缺 dsh.bundle 失败) | 实测 headless 完整识别 org-agent
 - 2026-08-31 | 规格书路径必须核存在 | 派发规格书标注"目标目录已存在"与实际不符(会话中断导致 mkdir 未执行)→ agent 执行中发现并自建目录；教训:规格书里的路径断言交付前必须 ls/readlink 实测 | DSH 调度 org-game-art 实测
+- 2026-09-01 | 真实调度闭环验证 | org-game-art 从压测 100 到 4 单真实任务全成（树/面部/全身交付 + 动画进行中，累计成本 ≈4.3 元）；规格书质量（路径先 ls 实测、透明/锚点量化验收点、SSO 绕行预置）直接决定产出质量与返工率；调度协议（规格书+经验注入+独立质检+回写）端到端有效 | DSH 会话 4 单实测
+- 2026-09-01 | 规格书预置绕行 | SSO 持续过期环境下，出图/动画类任务规格书应直接写入"数据面直连 images/generations"绕行路径（前 2 单 agent 各自撞墙重来，预置后一次通过）| 树/面部 vs 全身/动画实测
+- 2026-09-02 | 真实调度闭环验证（终态修正） | 修正 09-01 半程条目（4 单"动画进行中"）：org-game-art 6 单真实任务全成（树/面部/全身/正面跑步/方向立绘/方向跑步）；规格书质量四要素=路径实测+量化验收点+SSO 绕行预置+预算上限（超限即停）；动画类规格书模板=视频条数预算+meta 同构+锚点表+预览清单 | DSH 6 单实测（成本终值待分账核对）
+- 2026-09-02 | 同 EP 并行派发无冲突 | 前一单收尾中即可派下一单，同 EP 并行派发未见冲突 → 调度可放宽"串行收尾再派"约束（单次样本，置信度中） | 方向批并行派发实测
