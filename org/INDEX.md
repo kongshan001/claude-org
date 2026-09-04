@@ -17,6 +17,7 @@
 | C++/FFI 构建 | `topics/cpp-ffi-pitfalls/` | visibility、dylib、ctypes、nm、C extension | 会话挖掘 |
 | DSH 插件 | `topics/dsh-plugins/` | dsh 插件、dsh-restart、bundle、插件安装、重启、更新检查 | 活跃 |
 | 中间层契约 | `topics/middleware-contract/` | 契约、接口、多语言对齐、重构 | 会话挖掘 |
+| 多平台下载分流 | `topics/web-multiplatform-download/` | 二维码、UA、落地页、下载分流、鸿蒙、微信浏览器 | 案例沉淀 |
 | 二维码下载归因 | `topics/qr-download-attribution/` | 扫码、二维码、渠道归因、埋点、下载网关、UA 识别、MicroMessenger、落地页分流 | 活跃 |
 | Godot 引擎集成 | `topics/godot-integration/` | Godot、导入、.import、材质、albedo、SpriteFrames、SubViewport、资产验收 | 活跃 |
 
